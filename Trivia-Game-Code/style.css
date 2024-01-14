@@ -1,0 +1,208 @@
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #2997AD;
+    margin: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(10, 10%);
+    grid-template-rows: repeat(10, 10%);
+    gap: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+#welcome{
+    background-color: white;
+    font-family: Courier, monospace;
+    align-self: center;
+    flex-direction: column;
+    grid-row: 3/9;
+    grid-column: 3/10;
+}
+
+#welcome-text{
+    font-size: 30px;
+    text-align: center;
+
+}
+
+.welcome-button{
+    display: inline;
+    align-content: center;
+    text-decoration: none;
+}
+
+header{
+    font-size: 1.5em;
+    font-family: papyrus;
+    font-weight: bold;
+    margin: 10px;
+    padding: 10px;
+    height: 90px;
+    width: 250px;
+}
+
+button{
+    margin: 5px;
+    padding: 15px 20px;
+    line-height: 0px;
+    text-align: center;
+    display: inline;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+#player-info {
+    background-color: #CECAB3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    grid-row: 1/3;
+    grid-column: 3/10;
+    gap: 9%;
+}
+
+.info{
+    font-family: Courier, monospace;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.info-input{
+ font-weight: normal;
+}
+
+#inventory {
+    font-family: Courier, monospace;
+    font-size: 25px;
+    background-color: #CECAB3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    grid-row: 2/7;
+    grid-column: 1/3;
+}
+
+#member-info{
+    font-weight: bold;
+}
+
+#weapon-info{
+    font-weight: bold;
+}
+
+li{
+    list-style-type: "X";
+}
+
+#interact-heading{
+    font-family: Courier, monospace;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.help-buttons{
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-evenly;
+}
+
+#interact-heading{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.interact{
+    background-color: #CECAB3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    grid-row: 7/9;
+    grid-column: 1/3;
+}
+
+main {
+    background-color: #936F48;
+    padding: 0.5rem;
+    border-style: solid;
+    border-width: 5px;
+    border-color: #D2B53A;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    grid-row: 3/9;
+    grid-column: 3/10;
+}
+
+#level{
+    font-size: 30px;
+    background-color: beige;
+    padding: 5px;
+    font-weight: bold;
+    position: sticky;
+    display: inline;
+    align-self: center;
+}
+
+/* #destination1{
+    background: #1E6E9A;
+    position: absolute;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-self:flex-start;
+    justify-self:start;
+} */
+
+#trivia-text{
+    position: sticky;
+    background-color: white;
+    align-self: left;
+    height: 500px;
+    width: 900px;
+    margin: 10px;
+}
+
+.battle{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px;
+    display: inline-flex;
+    text-align: center;
+}
+
+.game-input{
+    font-weight: normal;
+}
+
+.question-marker{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#trivia-question{
+    /* display: flex; */
+    justify-content: space-between;
+    text-align: center;
+    font-size: 40px;
+}
+
+#answer-buttons{
+    display: flex;
+    justify-content: center;
+}

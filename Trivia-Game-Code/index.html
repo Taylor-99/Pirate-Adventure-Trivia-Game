@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pirate Adventure Trivia Game</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="trivia-game.js"></script>
+</head>
+<body>
+    
+    <header>
+        Pirate X Adventure Trivia Game
+    </header>
+
+    <div id="welcome">
+        <p id="welcome-text">Ahoy Mate! Would you like to deploy on an Adventure to find the Hidden trasure?</p>
+        <button class="welcome-button">Yes</button>
+        <button class="welcome-button">No</button>
+    </div>
+
+    <div id="player-info" class="hidden">
+
+        <div class="info" class="hidden">
+            <p class="hidden">Crew Name: <span id="crew-name" class="info-input"></span></p>
+        </div>
+
+        <div class="info" class="hidden">
+            <p class="hidden">Your Name: <span id="name" class="info-input"></span></p>
+        </div>
+
+        <div class="info" class="hidden">
+            <p class="hidden">Doubloons: <span id="money" class="info-input"></span></p>
+        </div>
+
+        <div class="info" class="hidden">
+            <p class="hidden">Health: <span id="health" class="info-input"></span></p>
+        </div>
+
+        <button id="quit" class="hidden">Quit</button>
+
+    </div>
+
+    <aside  id="inventory" class="hidden">
+
+        <div id="member-info" class="hidden">Crew Members:
+            <ul class="hidden">
+                <li id="member1" class="info-input" class="hidden"></li>
+                <li id="member2" class="info-input" class="hidden"></li>
+                <li id="member3" class="info-input" class="hidden"></li>
+                <li id="member4" class="info-input" class="hidden"></li>
+                <li id="member5" class="info-input" class="hidden"></li>
+            </ul>
+        </div>
+
+        <div id="weapon-info" class="hidden"> Weapons:
+            <ul class="hidden">
+                <li id="weapon1" class="info-input" class="hidden"></li>
+                <li id="weapon2" class="info-input" class="hidden"></li>
+                <li id="weapon3" class="info-input" class="hidden"></li>
+                <li id="weapon4" class="info-input" class="hidden"></li>
+            </ul>
+        </div>
+    
+    </aside>
+
+    <aside class="interact" class="hidden">
+
+        <p id="interact-heading" class="hidden">Need Help?</p>
+
+        <div class="help-buttons" class="hidden">
+            <button id="skip" class="hidden">Skip</button>
+            <button id="use-member" class="hidden">Use Member</button>
+            <button id="use-doctor" class="hidden">Use Doctor</button>
+            <button id="use-weapon" class="hidden">Use Weapon</button>
+        </div>
+
+    </aside>
+    <main class="hidden">
+
+        <p id="level" class="hidden">Level <span id="level-number" class="hidden">1</span></p>
+
+        <div id="destination1" class="hidden"></div>
+
+        <div id="trivia-text" class="hidden">
+
+            <div>
+                <p id="player" class="battle" class="hidden">You Health: <span class="game-input" id="health" class="hidden"></span></p>
+                <p class="battle" class="hidden">Opponet Health: <span class="game-input" id="opponet-health" class="hidden"></span></p>
+                <p class="battle" class="hidden">Waepon: <span class="game-input" id="wepon" class="hidden"></span></p>
+            </div>
+
+            <p class="question-marker" class="hidden">Question <span id="question-number" class="hidden"></span></p>
+            <p id="trivia-question" class="hidden"></p>
+
+            <div id="answer-buttons" class="hidden">
+                <button id="option1" class="hidden"></button>
+                <button id="option2" class="hidden"></button>
+                <button id="option3" class="hidden"></button>
+                <button id="option4" class="hidden"></button>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
