@@ -15,28 +15,11 @@ body {
 }
 
 .hidden {
-    display: none;
+    visibility: hidden;
 }
 
-#welcome{
-    background-color: white;
-    font-family: Courier, monospace;
-    align-self: center;
-    flex-direction: column;
-    grid-row: 3/9;
-    grid-column: 3/10;
-}
-
-#welcome-text{
-    font-size: 30px;
-    text-align: center;
-
-}
-
-.welcome-button{
-    display: inline;
-    align-content: center;
-    text-decoration: none;
+.hidden-welcome{
+    content-visibility: hidden;
 }
 
 header{
@@ -54,10 +37,63 @@ button{
     padding: 15px 20px;
     line-height: 0px;
     text-align: center;
-    display: inline;
-    text-decoration: none;
-    font-size: 16px;
+    display: inline-block;
+    font-size: 20px;
+    cursor: pointer;
 }
+
+#intro{
+    /* padding: 50px; */
+    font-family: Courier, monospace;
+    position:absolute;
+    /* display: grid; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* https://blog.hubspot.com/website/center-div-css */
+}
+
+.background{
+    background-color: white;
+}
+
+#intro-text{
+    display: block;
+    justify-content: center;
+    font-size: 30px;
+    text-align: center;
+    padding: 20px;
+}
+
+#intro-button{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+label{
+    font-family: Courier, monospace;
+    font-size:28px;
+}
+
+input{
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+#get-info{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-content: space-between;
+    padding: 20px;
+    gap: 10px;
+}
+
+
 
 #player-info {
     background-color: #CECAB3;
@@ -123,7 +159,7 @@ li{
     font-weight: bold;
 }
 
-.interact{
+#interact{
     background-color: #CECAB3;
     display: flex;
     flex-direction: column;
@@ -190,7 +226,7 @@ main {
     font-weight: normal;
 }
 
-.question-marker{
+#question-marker{
     font-weight: bold;
     font-size: 30px;
 }
