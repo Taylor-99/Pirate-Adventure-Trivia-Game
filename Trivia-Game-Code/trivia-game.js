@@ -89,9 +89,24 @@ function introduction(){
             console.log("They want to play");
         }
         else if(playChoice === "no-quit"){
-            console.log("They want to quit");
+            introText.remove();
+            introButtons.remove();
+            endGame(introSection);
         }
     })
+};
+
+function endGame(blankScreen){
+
+    let endText = document.createElement("p");
+
+    blankScreen.appendChild(endText);
+    endText.setAttribute("id", "intro-text");
+
+    endText.innerHTML = "Fair winds and calm seas, matey! <br><br>If ye choose to remain ashore and let the allure of the open ocean pass ye by, fear not. Not every soul be destined for the high seas, and the Pirate Adventure Trivia Game shall patiently await the day when ye hear the siren call of adventure.<br><br>As the sun sets on the horizon, the tales of daring exploits and hidden treasures will drift across the waves, enticing others to follow the path of the buccaneer.<br><br>Should ye ever decide to unfurl the sails and seek fortune on the boundless sea, the Pirate Adventure Trivia Game will be ready to welcome ye aboard.<br><br>Until then, may the shores be kind to ye and the stars above tell stories of what could have been.<br><br>Farewell, landlubber!"
+
+    console.log("worked")
+
 }
 
 introduction()
