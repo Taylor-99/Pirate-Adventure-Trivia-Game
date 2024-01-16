@@ -54,7 +54,7 @@ button{
 }
 
 #intro-text{
-    display: block;
+    display: flex;
     justify-content: center;
     font-size: 25px;
     text-align: center;
@@ -62,23 +62,37 @@ button{
     word-wrap: unset;
 }
 
-#intro-button{
+.intro-button{
     display: flex;
-    align-content: center;
     justify-content: center;
+    align-content: space-between;
     padding: 20px;
+    gap: 20px;
+}
+
+input[type=button]{
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px 25px;
+    font-family: Courier, monospace;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+input[type=text] {
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin: 10px 0;
+    font-size: 20px;
+    font-family: Courier, monospace;
+    cursor: text;
 }
 
 label{
     font-family: Courier, monospace;
     font-size:28px;
-}
-
-input{
-    box-sizing: border-box;
-    border: 2px solid black;
-    border-radius: 4px;
-    padding: 10px;
 }
 
 #get-info{
