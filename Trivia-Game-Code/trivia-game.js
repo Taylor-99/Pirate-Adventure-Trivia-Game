@@ -55,7 +55,7 @@ function introduction(){
     introText.setAttribute("id", "intro-text");
 
 
-    introText.innerHTML = "<p>Yo-ho, matey! Welcome to the treacherous seas of the Pirate Adventure Trivia Game! <br><br> Embark on a daring voyage full of swashbuckling exploits, hidden treasures, and perilous encounters. As the captain of your own ship, you'll navigate through mysterious islands and engage in fierce naval 	battles.<br><br> Prepare to make crucial decisions that will shape your pirate legacy. Will you play and be a legendary captain known throughout the seas, or quit now and stay ashore?</p>";
+    introText.innerHTML = "<p>Yo-ho, matey! Welcome to the treacherous seas of the Pirate Adventure Trivia Game! <br><br> Embark on a daring voyage full of swashbuckling exploits, hidden treasures, and perilous encounters. As the captain of your own ship, you'll navigate through mysterious islands and engage in fierce naval battles by answering trivia questions along the way.<br><br> Prepare to make crucial decisions that will shape your pirate legacy. Will you play and be a legendary captain known throughout the seas, or quit now and stay ashore?</p>";
 
     let introButtons = document.createElement("div");
 
@@ -63,15 +63,13 @@ function introduction(){
     introButtons.setAttribute("class", "intro-button");
 
     let playButton = document.createElement("input");
-    // playButton.textContent = "Hoist the Jolly Roger and set sail!";
     playButton.setAttribute("id", "yes-play");
     playButton.setAttribute("type", "button");
-    playButton.setAttribute("value", "Hoist the Jolly Roger and set sail!");
+    playButton.setAttribute("value", "Prepare to sail into the unknown!");
 
     playButton.style.backgroundColor = "#90EE90";
 
     let quitButton = document.createElement("input");
-    // quitButton.textContent = "I'll stay ashore for now.";
     quitButton.setAttribute("id", "no-quit");
     quitButton.setAttribute("type", "button");
     quitButton.setAttribute("value", "I'll stay ashore for now.");
@@ -145,9 +143,7 @@ function getCaptainName(){
 
     nameSubmit.style.backgroundColor = "#90EE90";
 
-    console.log("Name worked");
-
-    let playerName = "";
+    let captainName = "";
 
     inputName.addEventListener("click", function(event) {
         event.preventDefault();
@@ -157,17 +153,19 @@ function getCaptainName(){
             return;
         }
 
-        playerName = nameInput.value;
-        console.log(playerName);
+        console.log(gotName);
+
+        captainName = nameInput.value;
+        console.log(captainName);
 
         nameText.remove();
         inputName.remove();
 
-        getCrewName(playerName);
+        getCrewName(captainName);
     });
 }
 
-function getCrewName(captainName){
+function getCrewName(captainName1){
 
     let crewNameSection = document.getElementById("intro");
 
@@ -177,7 +175,7 @@ function getCrewName(captainName){
     crewNameText.setAttribute("id", "intro-text");
     crewNameSection.appendChild(crewNameText);
 
-    crewNameText.innerHTML = `Ahoy Captain ${captainName}, What be the grand name of yer noble crew as ye sail the open seas and seek treasures untold on this grand adventure?`
+    crewNameText.innerHTML = `Ahoy Captain ${captainName1}, What be the grand name of yer noble crew as ye sail the open seas and seek treasures untold on this grand adventure?`
 
     let crewInputName = document.createElement("div");
 
@@ -207,6 +205,88 @@ function getCrewName(captainName){
 
     console.log(crewName);
 
+    crewInputName.addEventListener("click", function(event) {
+        event.preventDefault();
+        let gotCrewName = event.target;
+
+        if(gotCrewName.tagName !== "INPUT" || gotCrewName.getAttribute("type") !== "button"){
+            return;
+        }
+
+        console.log(gotCrewName);
+
+        crewName = crewNameInput.value;
+        console.log(crewName);
+
+        crewNameText.remove();
+        crewInputName.remove();
+
+        startGame(captainName1, crewName);
+
+    });
+
+}
+
+function startGame(captainName2, crewName1){
+
+    let startSection = document.getElementById("intro");
+
+    startSection.style.backgroundColor = "white";
+
+    let startText = document.createElement("p");
+    startText.setAttribute("id", "intro-text");
+    startSection.appendChild(startText);
+
+    startText.innerHTML = `Avast, Captain ${captainName2}! The ship awaits, and the horizon beckons.<br><br>Instructions:<br><br>You will be traveling to 7 destinations where you will battle bad pirates. For each battle you will answer 10 trivia questions. At the end of each battle you will have the chance to win doubloons (money), a new crew member and/or a weapon depending on the number of answers you got correct.<br><br>You will also gain help throughout the adventure, whether it is from your crew members or a new weapon.<br><br> Adventure awaits! (You can quit anytime during the game)`
+
+    let startButtons = document.createElement("div");
+
+    startSection.appendChild(startButtons);
+    startButtons.setAttribute("id", "get-info");
+
+    let startButton = document.createElement("input");
+    startButton.setAttribute("id", "yes-start");
+    startButton.setAttribute("type", "button");
+    startButton.setAttribute("value", "Hoist the Jolly Roger and set sail!");
+
+    startButton.style.backgroundColor = "#90EE90";
+
+    let dontStartButton = document.createElement("input");
+    dontStartButton.setAttribute("id", "no-dontStart");
+    dontStartButton.setAttribute("type", "button");
+    dontStartButton.setAttribute("value", "Plant me flag on land");
+
+    dontStartButton.style.backgroundColor = "#FF7F7F";
+
+    startButtons.appendChild(startButton);
+    startButtons.appendChild(dontStartButton);
+
+    startButtons.addEventListener("click", function(event) {
+        event.preventDefault();
+        let continueOption = event.target;
+
+        if(continueOption.tagName !== "INPUT"){
+            return;
+        }
+
+        console.log(continueOption);
+
+        let continueChoice = continueOption.getAttribute("id");
+
+        if(continueChoice === "yes-start"){
+            startText.remove();
+            startButtons.remove();
+            console.log("They want to continue");
+            // getCaptainName();
+        }
+        else if(continueChoice === "no-dontStart"){
+            startText.remove();
+            startButtons.remove();
+            console.log("They stopped")
+            endGame("beginning");
+        }
+    })
+    
 }
 
 function endGame(keyWord){
@@ -261,8 +341,3 @@ introduction()
 //     [["Vilethorn Crag", "Sable Phantom Fleet", "Quatermaster"], ["Grimshade Blackthorn", "Sable Phantom Fleet", "Gunner"], ["Sablebane Morgana", "Sable Phantom Fleet", "Captain"]]
 
 // ];
-
-// let captainName = "";
-// let crewName = "";
-
-// let captain = new Captain(captainName, crewName, "Captain");
