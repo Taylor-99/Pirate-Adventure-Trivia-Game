@@ -17,17 +17,27 @@
 
     </div>
 
-    <div id="player-info" class="hidden">
+    <aside id="player-info" class="hidden">
 
-    </div>
+        <p class="info">Your Name: <span id="name" class="info-input"> </span></p>
+        <p class="info">Crew Name: <span id="crew-name" class="info-input"> </span></p>
+        <p class="info">Doubloons: <span id="money" class="info-input"> </span></p>
+        <p class="info">Health: <span id="health" class="info-input"> </span></p>
 
-    <aside  id="inventory" class="hidden">
+        <input type="button" value="Quit" id="quit"/>
+
+    </aside>
+
+    <aside  id="member-inventory" class="hidden">
 
         <div id="member-info" class="hidden">Crew Members:
             
         </div>
+    </aside>
 
-        <div id="weapon-info" class="hidden">Weapons:
+    <aside id="weapon-inventory" class="hidden">
+
+        <div id="weapon-info">Weapons:
             
         </div>
     
@@ -35,37 +45,38 @@
 
     <aside id="interact" class="hidden">
 
-        <p id="interact-heading" class="hidden">Need Help?</p>
+        <p id="interact-heading">Need Help?</p>
 
-        <div class="help-buttons" class="hidden">
+        <div class="help-buttons">
             
         </div>
 
     </aside>
 
-    <main class="hidden">
+    <main id="main-text" class="hidden">
 
-        <p id="level" class="hidden">Level <span id="level-number"></span></p>
+        <p id="level">Level <span id="level-number"></span><br><br> Destination: <span id="destination"></span></p>
 
-        <div id="destination1" class="hidden"></div>
+        <p id="destination-text"></p>
+
 
         <div id="trivia-text" class="hidden">
 
             <div id="battle-specs">
                 
-                <p id="player" class="battle" class="hidden">You Health: <span class="game-input" id="health" class="hidden"></span></p>
+                <p id="player" class="battle" ><span id="player-name"></span> Health: <span class="game-input" id="health"></span></p>
 
-                <p class="battle" class="hidden">Opponet Health: <span class="game-input" id="opponet-health" class="hidden"></span></p>
+                <p class="battle" ><span id="opponent-name"></span> Health: <span class="game-input" id="opponet-health"></span></p>
 
-                <p class="battle" class="hidden">Weapon: <span class="game-input" id="weapon" class="hidden"></span></p>
+                <p class="battle">Weapon: <span class="game-input" id="weapon"></span></p>
 
             </div>
 
-            <p id="question-marker" class="hidden">Question <span id="question-number" class="hidden"></span></p>
+            <p id="question-marker">Question <span id="question-number"></span></p>
             
-            <p id="trivia-question" class="hidden"></p>
+            <p id="trivia-question"></p>
 
-            <div id="answer-buttons" class="hidden">
+            <div id="answer-buttons">
             
             </div>
         </div>

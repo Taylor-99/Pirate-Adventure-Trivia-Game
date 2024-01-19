@@ -25,6 +25,7 @@ class Captain extends Pirates{
         super(name, crew, position)
         this.doubloons = 0;
         this.crewMembers = [];
+        this.weapon = [["Fist", ]];
     }
 
     getDoubloons(){
@@ -117,7 +118,7 @@ function getCaptainName(){
     nameSection.appendChild(nameText);
     nameText.setAttribute("id", "intro-text");
 
-    nameText.innerHTML = "Welcome aboard, matey! <br><br>The salty air fills yer lungs as the ship sets sail. As captain,ye shall navigate treacherous waters, face legendary challenges, and uncover untold riches.<br><br>But wait, what shall we call you matey?"
+    nameText.innerHTML = "Welcome aboard, matey! <br><br>As captain,ye shall navigate treacherous waters, face legendary battles, and uncover untold riches.<br><br>But wait, what shall we call you matey?"
 
     let inputName = document.createElement("div");
 
@@ -175,7 +176,7 @@ function getCrewName(captainName1){
     crewNameText.setAttribute("id", "intro-text");
     crewNameSection.appendChild(crewNameText);
 
-    crewNameText.innerHTML = `Ahoy Captain ${captainName1}, What be the grand name of yer noble crew as ye sail the open seas and seek treasures untold on this grand adventure?`
+    crewNameText.innerHTML = `Ahoy Captain ${captainName1}, What is the name of yer noble crew as ye sail the open seas and seek treasures untold on this grand adventure?`
 
     let crewInputName = document.createElement("div");
 
@@ -277,7 +278,8 @@ function startGame(captainName2, crewName1){
             startText.remove();
             startButtons.remove();
             console.log("They want to continue");
-            // getCaptainName();
+
+            playGame(captainName2, crewName1)
         }
         else if(continueChoice === "no-dontStart"){
             startText.remove();
@@ -285,11 +287,52 @@ function startGame(captainName2, crewName1){
             console.log("They stopped")
             endGame("beginning");
         }
-    })
+    });
     
 }
 
-function endGame(keyWord){
+function playGame(captainName3, crewName2){
+
+    let playerCaptain = new Captain(captainName3, crewName2, "Captain");
+
+    let infoSection = document.getElementById("player-info");
+    infoSection.classList.remove("hidden");
+
+    // let inventorySection = document.getElementById("weapon-inventory");
+    // inventorySection.classList.remove("hidden");
+
+    // let interactSection = document.getElementById("interact");
+    // interactSection.classList.remove("hidden");
+
+    let mainSection = document.getElementById("main-text");
+    mainSection.classList.remove("hidden")
+
+    let insertCaptainName = document.getElementById("name");
+    let insertCrewName = document.getElementById("crew-name");
+    let insertDoubloons = document.getElementById("money");
+    let insertHealth = document.getElementById("health");
+    let stopButton = document.getElementById("quit");
+    stopButton.style.backgroundColor = "#FF7F7F";
+
+    insertCaptainName.innerHTML = `${playerCaptain.name}`;
+    insertCrewName.innerHTML = `${playerCaptain.crew}`;
+    insertDoubloons.innerHTML = `${playerCaptain.doubloons}`;
+    insertHealth.innerHTML = `${playerCaptain.health}`;
+
+    let destination1Text = document.getElementById("destination-text");
+    destination1Text.style.backgroundColor = "white";
+    destination1Text.innerHTML = `Land ho, Captain ${playerCaptain.name}! Yer crew cheers as the ship docks at the first destination, The Florida Keys. The mysterious island awaits with secrets to unveil and treasures to be discovered.`
+
+    let destination1Button = document.createElement("input");
+    destination1Button.setAttribute("id", "destination1");
+    destination1Button.setAttribute("type", "button");
+    destination1Button.setAttribute("value", "Explore the Florida Keys");
+
+    destination1Button.after(destination1Text);
+
+}
+
+function endGame(keyWord, yourName = ""){
 
     let endSection = document.getElementById("intro");
 
@@ -302,10 +345,44 @@ function endGame(keyWord){
 
     if(keyWord === "beginning"){
 
-        endText.innerHTML = "Fair winds and calm seas, matey! <br><br>If ye choose to remain ashore and let the allure of the open ocean pass ye by, fear not. Not every soul be destined for the high seas, and the Pirate Adventure Trivia Game shall patiently await the day when ye hear the siren call of adventure.<br><br>As the sun sets on the horizon, the tales of daring exploits and hidden treasures will drift across the waves, enticing others to follow the path of the buccaneer.<br><br>Should ye ever decide to unfurl the sails and seek fortune on the boundless sea, the Pirate Adventure Trivia Game will be ready to welcome ye aboard.<br><br>Until then, may the shores be kind to ye and the stars above tell stories of what could have been.<br><br>Farewell, landlubber!"
+        endText.innerHTML = "Fair winds and calm seas, matey! <br><br>If ye choose to remain ashore and let the allure of the open ocean pass ye by, fear not. Not every soul be destined for the high seas, and the Pirate Adventure Trivia Game shall patiently await the day when ye hear the siren call of adventure.<br><br>Should ye ever decide to unfurl the sails and seek fortune on the boundless sea, the Pirate Adventure Trivia Game will be ready to welcome ye aboard.<br><br>Farewell, landlubber!"
 
         console.log("End worked")
     }
+    else if(keyWord === "During"){
+
+        endText.innerHTML = `Fair winds, Captain ${yourName}! As ye choose to part ways with the open sea, know that the Pirate Adventure Trivia Game remains a tale of what could have been. May yer future endeavors be as prosperous as the horizon we left behind.<br><br>Should ye ever feel the call of the ocean, remember the tales of yer time on the high seas. Until then, may yer compass guide ye ashore.<br><br>Thank ye for venturing into the Pirate Adventure Trivia Game!`
+    }
+
+    let endButton = document.createElement("div");
+
+    endSection.appendChild(endButton);
+    endButton.setAttribute("class", "intro-button");
+
+    let backButton = document.createElement("input");
+    backButton.setAttribute("id", "back");
+    backButton.setAttribute("type", "button");
+    backButton.setAttribute("value", "Back to the Beginning");
+
+    backButton.style.backgroundColor = "#90EE90";
+
+    endButton.appendChild(backButton);
+
+    endButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        let endGame = event.target;
+
+        if(endGame.tagName !== "INPUT"){
+            return;
+        }
+
+        console.log(endGame);
+
+        endText.remove();
+        endButton.remove();
+
+        introduction();
+    })
 
 };
 
