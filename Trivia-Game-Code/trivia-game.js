@@ -473,6 +473,7 @@ function newQuestion(triviaQandAArr, correct, questionNum){
         return correct;
     });
 }
+// https://www.altcademy.com/blog/how-to-make-a-quiz-in-javascript/
 
 function checkAnswer(playerAnswer, correctAnswer, numCorrect, triviaQandANum, triviaArr){
 
@@ -494,6 +495,7 @@ function checkAnswer(playerAnswer, correctAnswer, numCorrect, triviaQandANum, tr
     }
 
 }
+// https://www.altcademy.com/blog/how-to-make-a-quiz-in-javascript/
 
 // function createTriviaQuestion(triviaObject, num, numCorrect){
 
