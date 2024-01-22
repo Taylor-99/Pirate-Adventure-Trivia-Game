@@ -25,22 +25,11 @@ class Captain extends Pirates{
         super(name, crew, position)
         this.doubloons = 0;
         this.crewMembers = [];
-        this.weapon = [["Fist", ]];
+        this.weapon = [["Fist", 5]];
     }
 
     getDoubloons(){
         return this.doubloons;
-    }
-}
-
-class YourPirates extends Pirates {
-    constructor(name, crew, position){
-        super(name, crew, position)
-        this.weapon = weapon;
-    }
-
-    getWeapon(weapon){
-        this.weapon = weapon;
     }
 }
 
@@ -88,30 +77,22 @@ function introduction(){
             return;
         }
 
-        console.log(playOption);
-
         let playChoice = playOption.getAttribute("id");
 
         if(playChoice === "yes-play"){
             introText.remove();
             introButtons.remove();
-            console.log("They want to play");
-            getCaptainName();
+            getNames(introSection);
         }
         else if(playChoice === "no-quit"){
             introText.remove();
             introButtons.remove();
-            console.log("They quit")
             endGame("beginning");
         }
     })
 };
 
-function getCaptainName(){
-
-    let nameSection = document.getElementById("intro");
-
-    nameSection.style.backgroundColor = "white";
+function getNames(nameSection){
 
     let nameText = document.createElement("p");
 
@@ -146,99 +127,68 @@ function getCaptainName(){
 
     let captainName = "";
 
-    inputName.addEventListener("click", function(event) {
+    nameSubmit.addEventListener("click", function(event) {
         event.preventDefault();
+        event.stopPropagation();
         let gotName = event.target;
 
         if(gotName.tagName !== "INPUT" || gotName.getAttribute("type") !== "button"){
             return;
         }
 
-        console.log(gotName);
-
         captainName = nameInput.value;
-        console.log(captainName);
+        nameInput.remove();
+        nameSubmit.remove();
 
-        nameText.remove();
-        inputName.remove();
+        nameText.innerHTML = `Ahoy Captain ${captainName}, What is the name of yer noble crew as ye sail the open seas and seek treasures untold on this grand adventure?`
 
-        getCrewName(captainName);
-    });
-}
+        nameInputLabel.setAttribute("for", "name");
+        nameInputLabel.innerHTML = "Crew Name: ";
 
-function getCrewName(captainName1){
+        let crewNameInput = document.createElement("input");
+        crewNameInput.setAttribute("type", "text");
+        crewNameInput.setAttribute("placeholder", "Crew Name");
+        crewNameInput.setAttribute("id", "crew-name");
+        inputName.appendChild(crewNameInput);
 
-    let crewNameSection = document.getElementById("intro");
+        let crewNameSubmit = document.createElement("input");
+        crewNameSubmit.setAttribute("type", "button");
+        crewNameSubmit.setAttribute("value", "Submit");
+        crewNameSubmit.setAttribute("id", "submit-name");
+        inputName.appendChild(crewNameSubmit);
+   
+        crewNameSubmit.style.backgroundColor = "#90EE90";
 
-    crewNameSection.style.backgroundColor = "white";
+        let crewName = "";
 
-    let crewNameText = document.createElement("p");
-    crewNameText.setAttribute("id", "intro-text");
-    crewNameSection.appendChild(crewNameText);
+        crewNameSubmit.addEventListener("click", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            let gotCrewName = event.target;
 
-    crewNameText.innerHTML = `Ahoy Captain ${captainName1}, What is the name of yer noble crew as ye sail the open seas and seek treasures untold on this grand adventure?`
+            if(gotCrewName.tagName !== "INPUT" || gotCrewName.getAttribute("type") !== "button"){
+                return;
+            }
 
-    let crewInputName = document.createElement("div");
+            crewName = crewNameInput.value;
 
-    crewNameSection.appendChild(crewInputName);
-    crewInputName.setAttribute("id", "get-info");
+            nameText.remove();
+            inputName.remove();
 
-    let crewNameInputLabel = document.createElement("label");
-    crewNameInputLabel.setAttribute("for", "name");
-    crewNameInputLabel.innerHTML = "Crew Name: ";
-    crewInputName.appendChild(crewNameInputLabel);
+            startGame(captainName, crewName, nameSection);
 
-    let crewNameInput = document.createElement("input");
-    crewNameInput.setAttribute("type", "text");
-    crewNameInput.setAttribute("placeholder", "Crew Name");
-    crewNameInput.setAttribute("id", "crew-name");
-    crewInputName.appendChild(crewNameInput);
-
-    let crewNameSubmit = document.createElement("input");
-    crewNameSubmit.setAttribute("type", "button");
-    crewNameSubmit.setAttribute("value", "Submit");
-    crewNameSubmit.setAttribute("id", "submit-crew-name");
-    crewInputName.appendChild(crewNameSubmit);
-
-    crewNameSubmit.style.backgroundColor = "#90EE90";
-
-    let crewName = crewNameInput.value;
-
-    console.log(crewName);
-
-    crewInputName.addEventListener("click", function(event) {
-        event.preventDefault();
-        let gotCrewName = event.target;
-
-        if(gotCrewName.tagName !== "INPUT" || gotCrewName.getAttribute("type") !== "button"){
-            return;
-        }
-
-        console.log(gotCrewName);
-
-        crewName = crewNameInput.value;
-        console.log(crewName);
-
-        crewNameText.remove();
-        crewInputName.remove();
-
-        startGame(captainName1, crewName);
-
+        });
     });
 
 }
 
-function startGame(captainName2, crewName1){
-
-    let startSection = document.getElementById("intro");
-
-    startSection.style.backgroundColor = "white";
+function startGame(captainName1, crewName1, startSection){
 
     let startText = document.createElement("p");
     startText.setAttribute("id", "intro-text");
     startSection.appendChild(startText);
 
-    startText.innerHTML = `Avast, Captain ${captainName2}! The ship awaits, and the horizon beckons.<br><br>Instructions:<br><br>You will be traveling to 7 destinations where you will battle bad pirates. For each battle you will answer 10 trivia questions. At the end of each battle you will have the chance to win doubloons (money), a new crew member and/or a weapon depending on the number of answers you got correct.<br><br>You will also gain help throughout the adventure, whether it is from your crew members or a new weapon.<br><br> Adventure awaits! (You can quit anytime during the game)`
+    startText.innerHTML = `Avast, Captain ${captainName1}! The ship awaits, and the horizon beckons.<br><br>Instructions:<br><br>You will be traveling to 7 destinations where you will battle bad pirates. For each battle you will answer 10 trivia questions and if you get 4 questions wrong, you will lose the battle. At the end of each battle you will have the chance to win doubloons (money), a new crew member and/or a weapon depending on the number of answers you got correct.<br><br>You will also gain help throughout the adventure, whether it is from your crew members or a new weapon.<br><br> Adventure awaits! (You can quit anytime during the game)`
 
     let startButtons = document.createElement("div");
 
@@ -270,21 +220,17 @@ function startGame(captainName2, crewName1){
             return;
         }
 
-        console.log(continueOption);
-
         let continueChoice = continueOption.getAttribute("id");
 
         if(continueChoice === "yes-start"){
             startText.remove();
             startButtons.remove();
-            console.log("They want to continue");
 
-            playGame(captainName2, crewName1)
+            playGame(captainName1, crewName1)
         }
         else if(continueChoice === "no-dontStart"){
             startText.remove();
             startButtons.remove();
-            console.log("They stopped")
             endGame("beginning");
         }
     });
@@ -293,16 +239,24 @@ function startGame(captainName2, crewName1){
 
 function playGame(captainName3, crewName2){
 
-    let playerCaptain = new Captain(captainName3, crewName2, "Captain");
+    let playerCaptain = new Captain(`Captain ${captainName3}`, crewName2, "Captain");
+
+    // let quitGame = false;
+    // let results = [];
+
+    destination(playerCaptain, 1, "Florida Keys", ["Vanguard", "Shadow Serpents", "Captain"]);
+
+}
+
+function destination(captain, level, destination, badPirateArr){
+
+    let badPirate = new Pirates(badPirateArr[0], badPirateArr[1], badPirateArr[2])
 
     let infoSection = document.getElementById("player-info");
     infoSection.classList.remove("hidden");
 
-    // let inventorySection = document.getElementById("weapon-inventory");
-    // inventorySection.classList.remove("hidden");
-
-    // let interactSection = document.getElementById("interact");
-    // interactSection.classList.remove("hidden");
+    let inventorySection = document.getElementById("weapon-inventory");
+    inventorySection.classList.remove("hidden");
 
     let mainSection = document.getElementById("main-text");
     mainSection.classList.remove("hidden")
@@ -314,23 +268,287 @@ function playGame(captainName3, crewName2){
     let stopButton = document.getElementById("quit");
     stopButton.style.backgroundColor = "#FF7F7F";
 
-    insertCaptainName.innerHTML = `${playerCaptain.name}`;
-    insertCrewName.innerHTML = `${playerCaptain.crew}`;
-    insertDoubloons.innerHTML = `${playerCaptain.doubloons}`;
-    insertHealth.innerHTML = `${playerCaptain.health}`;
+    insertCaptainName.innerHTML = `${captain.name}`;
+    insertCrewName.innerHTML = `${captain.crew}`;
+    insertDoubloons.innerHTML = `${captain.doubloons}`;
+    insertHealth.innerHTML = `${captain.health}`;
 
-    let destination1Text = document.getElementById("destination-text");
-    destination1Text.style.backgroundColor = "white";
-    destination1Text.innerHTML = `Land ho, Captain ${playerCaptain.name}! Yer crew cheers as the ship docks at the first destination, The Florida Keys. The mysterious island awaits with secrets to unveil and treasures to be discovered.`
+    let levelNumber = document.getElementById("level-number");
+    let destinationLocation = document.getElementById("destination");
+    destinationLocation.style.fontWeight = "normal"
 
-    let destination1Button = document.createElement("input");
-    destination1Button.setAttribute("id", "destination1");
-    destination1Button.setAttribute("type", "button");
-    destination1Button.setAttribute("value", "Explore the Florida Keys");
+    levelNumber.innerHTML = level;
+    destinationLocation.innerHTML = destination;
 
-    destination1Button.after(destination1Text);
+    let continueDestination = document.getElementById("destination-text");
+    
+    let destinationText = document.createElement("p");
+    destinationText.style.backgroundColor = "white";
+    destinationText.innerHTML = `Land ho, Captain ${captain.name}! Yer ship docks at the first destination, The ${destination}. The mysterious island awaits with secrets to unveil and treasures to be discovered.`
+
+    let destinationButton = document.createElement("input");
+    destinationButton.setAttribute("id", "destination1");
+    destinationButton.setAttribute("type", "button");
+    destinationButton.setAttribute("value", `Explore the ${destination}`);
+    destinationButton.style.backgroundColor = "#90EE90";
+
+    continueDestination.appendChild(destinationText);
+    continueDestination.appendChild(destinationButton);
+
+    destinationButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        let continueEvent = event.target;
+
+        if(continueEvent.tagName !== "INPUT" || continueEvent.getAttribute("type") !== "button"){
+            return;
+        }
+
+        destinationButton.remove();
+
+        destinationText.innerHTML = `Shiver me timbers, Captain ${captain.name}! As ye step ashore, a shadowy figure emerges from the shadows a fearsome pirate, infamous for ruthless deeds on land and sea ${badPirate.position} ${badPirate.name}.`
+        
+        let continueButton = document.createElement("input");
+        continueButton.setAttribute("id", "continue1");
+        continueButton.setAttribute("type", "button");
+        continueButton.setAttribute("value", "Continue to Trivia");
+        continueButton.style.backgroundColor = "#90EE90";
+
+        continueDestination.appendChild(continueButton);
+
+        continueButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            let continueEvent = event.target;
+    
+            if(continueEvent.tagName !== "INPUT" || continueEvent.getAttribute("type") !== "button"){
+                return;
+            }
+    
+            destinationText.remove();
+            destinationButton.remove();
+    
+            continueDestination.setAttribute("class", "hidden");
+
+            triviaGame(captain, badPirate, level, destination);
+
+            return;
+            
+        });
+
+        return;
+
+    });
+}
+
+function triviaGame(captain1, badPirate1, level1, destination1){
+
+    let levelNumber1 = document.getElementById("level-number");
+    let destinationLocation1 = document.getElementById("destination");
+    destinationLocation1.style.fontWeight = "normal"
+
+    levelNumber1.innerHTML = level1;
+    destinationLocation1.innerHTML = destination1;
+
+    let triviaScreen = document.getElementById("trivia-text");
+
+    triviaScreen.classList.remove("hidden");
+
+    let playerNameTrivia = document.getElementById("player-name");
+    let playerhealthTrivia = document.getElementById("player-health");
+    let playerweaponTrivia = document.getElementById("weapon");
+    let opponentNameTrivia = document.getElementById("opponent-name");
+    let opponentHealthTrivia = document.getElementById("opponent-health");
+
+    playerNameTrivia.innerHTML = `${captain1.name} `;
+    playerhealthTrivia.innerHTML = `${captain1.health}`;
+    playerweaponTrivia.innerHTML = `${captain1.weapon[captain1.weapon.length - 1][0]}`;
+    opponentNameTrivia.innerHTML = `${badPirate1.name} `;
+    opponentHealthTrivia.innerHTML = `${badPirate1.health}`;
+
+    let triviaQandA = [
+        {
+            question: "What is Florida's nickname?", 
+            options:["The Sunshine State", "The Evergreen State", "The Peach State","The Lone Star State"],
+            answer: "The Sunshine State"
+        },
+        {
+            question: "Which city is known for its magical theme parks, including Walt Disney World and Universal Studios?", 
+            options: ["Miami", "Tampa", "Orlando", "Jacksonville"],
+            answer: "Orlando"
+        },
+        {
+            question: "What famous ecosystem is found in southern Florida, characterized by slow-moving rivers and swamps?", 
+            options:[ "The Rocky Mountains", "The Grand Canyon", "The Great Barrier Reef", "The Everglades"],
+            answer: "The Everglades"
+        },
+        {
+            question: "Which ocean borders Florida to the east", 
+            options:[ "Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
+            answer: "Atlantic Ocean"
+        },
+        {
+            question: "What is the capital city of Florida?", 
+            options: ["Miami", "Tallahassee", "Orlando", "Tampa"],
+            answer: "Tallahassee"
+        },
+        {
+            question: "Which famous space launch center is located in Florida?", 
+            options:[ "Kennedy Space Center",  "Cape Canaveral Air Force Station", "Houston Space Center", "SpaceX Launchpad"],
+            answer: "Kennedy Space Center"
+        },
+        {
+            question: "Which popular tourist destination in Florida is known for its vibrant nightlife, art deco architecture, and beautiful beaches?", 
+            options: ["Key West", "Miami Beach", "Fort Lauderdale", "Sarasota"],
+            answer: "Miami Beach"
+        },
+        {
+            question: "Which major sports event takes place annually in Daytona Beach, attracting racing enthusiasts from around the world?", 
+            options: ["Super Bowl", "Daytona 500", "The Masters", "World Series"],
+            answer: "Daytona 500"
+        },
+        {
+            question: "What is the name of the iconic swamp-dwelling, reptilian creature often associated with Florida folklore?", 
+            options: ["Bigfoot", "Chupacabra", "Mothman", "Skunk Ape"],
+            answer: "Skunk Ape"
+        },
+        {
+            question: "Which Florida city is known for its Cuban influence, colorful art scene, and historic cigar factories?", 
+            options:["Tampa", "Key West", "Miami", "St. Augustine"],
+            answer: "Miami"
+        }
+    ];
+
+    let startCorrect = 0;
+    let answered = true;
+    let startQuestionNum = 0
+
+    newQuestion(triviaQandA, startCorrect, startQuestionNum)
 
 }
+
+function newQuestion(triviaQandAArr, correct, questionNum){
+
+
+    let questionNumber = document.getElementById("question-number");
+    questionNumber.innerHTML = `${questionNum+1} / 10`;
+
+    let triviaQuestion = document.getElementById("trivia-question");
+    triviaQuestion.innerHTML = `${triviaQandAArr[questionNum].question}`
+
+    let answerButtons = document.getElementById("answer-buttons");
+
+    let optionASubmit = document.createElement("input");
+    optionASubmit.setAttribute("type", "button");
+    optionASubmit.setAttribute("value", `${triviaQandAArr[questionNum].options[0]}`);
+    optionASubmit.setAttribute("id", "optionA");
+    answerButtons.appendChild(optionASubmit);
+
+    let optionBSubmit = document.createElement("input");
+    optionBSubmit.setAttribute("type", "button");
+    optionBSubmit.setAttribute("value", `${triviaQandAArr[questionNum].options[1]}`);
+    optionBSubmit.setAttribute("id", "optionB");
+    answerButtons.appendChild(optionBSubmit);
+
+    let optionCSubmit = document.createElement("input");
+    optionCSubmit.setAttribute("type", "button");
+    optionCSubmit.setAttribute("value", `${triviaQandAArr[questionNum].options[2]}`);
+    optionCSubmit.setAttribute("id", "optionC");
+    answerButtons.appendChild(optionCSubmit);
+
+    let optionDSubmit = document.createElement("input");
+    optionDSubmit.setAttribute("type", "button");
+    optionDSubmit.setAttribute("value", `${triviaQandAArr[questionNum].options[3]}`);
+    optionDSubmit.setAttribute("id", "optionD");
+    answerButtons.appendChild(optionDSubmit);
+
+    answerButtons.addEventListener("click", function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+        let answerEvent = event.target;
+
+        let answerChoice = answerEvent.getAttribute("value");
+
+        correct = checkAnswer(answerChoice, triviaQandAArr[questionNum].answer, correct, questionNum, triviaQandAArr);
+
+        return correct;
+    });
+}
+
+function checkAnswer(playerAnswer, correctAnswer, numCorrect, triviaQandANum, triviaArr){
+
+    if(playerAnswer === correctAnswer){
+        console.log("Correct");
+        numCorrect++;
+    }
+    else{
+        console.log("Wrong");
+    };
+
+    triviaQandANum = triviaQandANum + 1;
+
+    if (triviaQandANum < 10){
+        newQuestion(triviaArr[triviaQandANum])
+    }
+    else{
+        return;
+    }
+
+}
+
+// function createTriviaQuestion(triviaObject, num, numCorrect){
+
+//     let questionNumber = document.getElementById("question-number");
+//     questionNumber.innerHTML = `${num+1}`;
+
+//     let triviaQuestion = document.getElementById("trivia-question");
+//     triviaQuestion.innerHTML = `${triviaObject.question}`
+
+//     let answerButtons = document.getElementById("answer-buttons");
+
+//     let optionASubmit = document.createElement("input");
+//     optionASubmit.setAttribute("type", "button");
+//     optionASubmit.setAttribute("value", `${triviaObject.options.a}`);
+//     optionASubmit.setAttribute("id", "optionA");
+//     answerButtons.appendChild(optionASubmit);
+
+//     let optionBSubmit = document.createElement("input");
+//     optionBSubmit.setAttribute("type", "button");
+//     optionBSubmit.setAttribute("value", `${triviaObject.options.b}`);
+//     optionBSubmit.setAttribute("id", "optionB");
+//     answerButtons.appendChild(optionBSubmit);
+
+//     let optionCSubmit = document.createElement("input");
+//     optionCSubmit.setAttribute("type", "button");
+//     optionCSubmit.setAttribute("value", `${triviaObject.options.c}`);
+//     optionCSubmit.setAttribute("id", "optionC");
+//     answerButtons.appendChild(optionCSubmit);
+
+//     let optionDSubmit = document.createElement("input");
+//     optionDSubmit.setAttribute("type", "button");
+//     optionDSubmit.setAttribute("value", `${triviaObject.options.d}`);
+//     optionDSubmit.setAttribute("id", "optionD");
+//     answerButtons.appendChild(optionDSubmit);
+
+//     answerButtons.addEventListener("click", function(event){
+
+//         event.preventDefault();
+//         event.stopPropagation();
+//         let answerEvent = event.target;
+
+//         let answerChoice = answerEvent.getAttribute("value");
+
+//         if(answerChoice === triviaObject.answer){
+//             numCorrect = numCorrect + 1;
+//         }
+
+//         triviaQuestion.remove();
+//         answerButtons.remove();
+
+//         return;
+//     });
+
+//     return [numCorrect, true];
+// }
 
 function endGame(keyWord, yourName = ""){
 
@@ -346,8 +564,6 @@ function endGame(keyWord, yourName = ""){
     if(keyWord === "beginning"){
 
         endText.innerHTML = "Fair winds and calm seas, matey! <br><br>If ye choose to remain ashore and let the allure of the open ocean pass ye by, fear not. Not every soul be destined for the high seas, and the Pirate Adventure Trivia Game shall patiently await the day when ye hear the siren call of adventure.<br><br>Should ye ever decide to unfurl the sails and seek fortune on the boundless sea, the Pirate Adventure Trivia Game will be ready to welcome ye aboard.<br><br>Farewell, landlubber!"
-
-        console.log("End worked")
     }
     else if(keyWord === "During"){
 
@@ -375,8 +591,6 @@ function endGame(keyWord, yourName = ""){
         if(endGame.tagName !== "INPUT"){
             return;
         }
-
-        console.log(endGame);
 
         endText.remove();
         endButton.remove();
