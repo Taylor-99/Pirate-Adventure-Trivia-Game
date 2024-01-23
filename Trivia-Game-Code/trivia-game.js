@@ -275,7 +275,7 @@ function destination(captain, level){
     destinationText.innerHTML = `Land ho, ${captain.name}! ${destinations[level-1].text}`
 
     let destinationButton = document.createElement("input");
-    destinationButton.setAttribute("id", "destination1");
+    destinationButton.setAttribute("id", "currentDestination");
     destinationButton.setAttribute("type", "button");
     destinationButton.setAttribute("value", `Explore the ${destinations.island}`);
     destinationButton.style.backgroundColor = "#90EE90";
@@ -293,7 +293,7 @@ function destination(captain, level){
 
         destinationButton.remove();
 
-        destinationText.innerHTML = `Shiver me timbers, ${captain.name}! As ye step ashore, a shadowy figure emerges from the shadows a fearsome pirate, infamous for ruthless deeds on land and sea ${badPirate.position} ${badPirate.name}.`
+        destinationText.innerHTML = `Shiver me timbers, ${captain.name}! ${opponentArr[level-1][3]}.`
         
         let continueButton = document.createElement("input");
         continueButton.setAttribute("id", "continue1");
@@ -327,14 +327,14 @@ function destination(captain, level){
     });
 }
 
-function triviaGame(captain1, badPirate1, level1, destination1){
+function triviaGame(captain1, badPirate1, currentLevel, currentDestination){
 
     let levelNumber1 = document.getElementById("level-number");
     let destinationLocation1 = document.getElementById("destination");
     destinationLocation1.style.fontWeight = "normal"
 
-    levelNumber1.innerHTML = level1;
-    destinationLocation1.innerHTML = destination1;
+    levelNumber1.innerHTML = currentLevel;
+    destinationLocation1.innerHTML = currentDestination;
 
     let triviaScreen = document.getElementById("trivia-text");
 
@@ -356,7 +356,7 @@ function triviaGame(captain1, badPirate1, level1, destination1){
     let startQuestionNum = 0;
     let startWrong = 0;
 
-    newQuestion(triviaQandA[level1-1], startCorrect, startQuestionNum, startWrong, level1)
+    newQuestion(triviaQandA[currentLevel-1], startCorrect, startQuestionNum, startWrong, currentLevel)
 
 }
 
@@ -405,9 +405,8 @@ function newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, level2){
         checkAnswer(answerChoice, triviaQandAArr[questionNum].answer, numCorrect, numWrong, questionNum, triviaQandAArr, answerButtons, level2, getAnswer);
     }
 
-    let gameQuitButton = document.getElementById()
-
     answerButtons.addEventListener("click", getAnswer);
+    // gameQuitButton.addEventListener("click", areYouSure);
 }
 // https://www.altcademy.com/blog/how-to-make-a-quiz-in-javascript/
 
@@ -458,7 +457,7 @@ function endGame(keyWord, yourName = ""){
 
         endText.innerHTML = "Fair winds and calm seas, matey! <br><br>If ye choose to remain ashore and let the allure of the open ocean pass ye by, fear not. Not every soul be destined for the high seas, and the Pirate Adventure Trivia Game shall patiently await the day when ye hear the siren call of adventure.<br><br>Should ye ever decide to unfurl the sails and seek fortune on the boundless sea, the Pirate Adventure Trivia Game will be ready to welcome ye aboard.<br><br>Farewell, landlubber!"
     }
-    else if(keyWord === "During"){
+    else if(keyWord === "during"){
 
         endText.innerHTML = `Fair winds, ${yourName}! As ye choose to part ways with the open sea, know that the Pirate Adventure Trivia Game remains a tale of what could have been. May yer future endeavors be as prosperous as the horizon we left behind.<br><br>Should ye ever feel the call of the ocean, remember the tales of yer time on the high seas. Until then, may yer compass guide ye ashore.<br><br>Thank ye for venturing into the Pirate Adventure Trivia Game!`
     }
@@ -528,17 +527,17 @@ const destinations = [
 ];
 
 const opponentArr = [
-    ["Captain Vanguard", "Shadow Serpents", "Navigator", ],
+    ["Vanguard", "Shadow Serpents", "Navigator", "As ye step ashore, a menacing pirate emerges, its Navigator Vanguard of the Shadow Serpents and he's demanding yer valuables."],
     
-    ["Buccaneer Nell", "Black Tide Buccaneers", "Boatswain"],
+    ["Buccaneer Nell", "Black Tide Buccaneers", "Boatswain", "A rival pirate, Boatswain Buccaneer Nell of the Black Tide Buccaneers, challenges ye to a game of wits."],
 
-    ["Blackheart Brutus", "Thunderstrike Raiders", "Gunner"],
+    ["Blackheart Brutus", "Thunderstrike Raiders", "Gunner", "A notorious pirate, Gunner Blackheart Brutus of the Thunderstrick Raiders, known for ruthless deeds, approaches with ill intentions. What be yer move?"],
 
-    ["Shadowblade Killian", "Stormborn Marauders", "Quartermaster"],
+    ["Shadowblade Killian", "Stormborn Marauders", "Quartermaster", "A cunning pirate, QUartermaster Shadowblade Killian of the Stormborn Marauders, challenges ye to a game of chance and skill on the island. What be yer approach to this contest?"],
 
-    ["Darkwater Mortimer", "Crossbones Syndicate", "First Mate"],
+    ["Darkwater Mortimer", "Crossbones Syndicate", "First Mate", "A rogue pirate crew, known for their brutality, awaits ye on the island. How will ye handle this dire confrontation?"],
 
-    ["Direclaw Riven", "Ironheart Privateers", "First Mate"],
+    ["Direclaw Riven", "Ironheart Privateers", "First Mate", "A notorious pirate, First Mate Direclaw Riven, challenges ye to a duel"],
 
     ["Sablebane Morgana", "Sable Phantom Fleet", "Captain", `As ye step ashore, a shadowy figure emerges from the shadows a fearsome pirate, infamous for ruthless deeds on land and sea Captain Sablebane Morgana of the Sable Phantom Fleet.`]
 ];
@@ -561,7 +560,7 @@ const triviaQandA = [
             answer: "The Everglades"
         },
         {
-            question: "Which ocean borders Florida to the east", 
+            question: "Which ocean borders Florida to the east?", 
             options:[ "Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
             answer: "Atlantic Ocean"
         },
@@ -576,9 +575,9 @@ const triviaQandA = [
             answer: "Kennedy Space Center"
         },
         {
-            question: "Which popular tourist destination in Florida is known for its vibrant nightlife, art deco architecture, and beautiful beaches?", 
-            options: ["Key West", "Miami Beach", "Fort Lauderdale", "Sarasota"],
-            answer: "Miami Beach"
+            question: "Which river, the longest in Florida, flows southward through the state and is known for its slow flow and dark tannic water?", 
+            options: ["St. Johns River", "Suwannee River", "Apalachicola River", "Withlacoochee River"],
+            answer: "St. Johns River"
         },
         {
             question: "Which major sports event takes place annually in Daytona Beach, attracting racing enthusiasts from around the world?", 
@@ -586,9 +585,9 @@ const triviaQandA = [
             answer: "Daytona 500"
         },
         {
-            question: "What is the name of the iconic swamp-dwelling, reptilian creature often associated with Florida folklore?", 
-            options: ["Bigfoot", "Chupacabra", "Mothman", "Skunk Ape"],
-            answer: "Skunk Ape"
+            question: "What is the official state marine mammal of Florida?", 
+            options: ["Manatee", "Dolphin", "Sea Turtle", "Whale Shark"],
+            answer: "Manatee"
         },
         {
             question: "Which Florida city is known for its Cuban influence, colorful art scene, and historic cigar factories?", 
@@ -605,313 +604,313 @@ const triviaQandA = [
         },
         {
             question: "Which city is known for its magical theme parks, including Walt Disney World and Universal Studios?", 
-            options: ["Miami", "Tampa", "Orlando", "Jacksonville"],
-            answer: "Orlando"
+            options: ["Jimmy Cliff", "Toots Hibbert", "Bob Marley", "Damian Marley"],
+            answer: "Bob Marley"
         },
         {
-            question: "What famous ecosystem is found in southern Florida, characterized by slow-moving rivers and swamps?", 
-            options:[ "The Rocky Mountains", "The Grand Canyon", "The Great Barrier Reef", "The Everglades"],
-            answer: "The Everglades"
+            question: "Which Caribbean country comprises a group of islands called the ABC Islands, including Aruba, Bonaire, and Curaçao?", 
+            options:["The Bahamas", "Antigua and Barbuda", "Trinidad and Tobago", "Kingdom of the Netherlands"],
+            answer: "Kingdom of the Netherlands"
         },
         {
-            question: "Which ocean borders Florida to the east", 
-            options:[ "Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
-            answer: "Atlantic Ocean"
+            question: "Which famous Jamaican sprinter is widely considered the fastest man in the world?", 
+            options:["Asafa Powell", "Usain Bolt", "Yohan Blake", "Shelly-Ann Fraser-Pryce"],
+            answer: "Usain Bolt"
         },
         {
-            question: "What is the capital city of Florida?", 
-            options: ["Miami", "Tallahassee", "Orlando", "Tampa"],
-            answer: "Tallahassee"
+            question: "What is the currency used in Jamaica?", 
+            options: ["Dollar", "Peso", "Lira", "Euro"],
+            answer: "Dollar"
         },
         {
-            question: "Which famous space launch center is located in Florida?", 
-            options:[ "Kennedy Space Center",  "Cape Canaveral Air Force Station", "Houston Space Center", "SpaceX Launchpad"],
-            answer: "Kennedy Space Center"
+            question: "Which famous pirate had a stronghold in the Caribbean during the Golden Age of Piracy and operated around the Bahamas and Florida?", 
+            options:["Blackbeard", "Captain Kidd", "Anne Bonny", "Calico Jack"],
+            answer: "Blackbeard"
         },
         {
-            question: "Which popular tourist destination in Florida is known for its vibrant nightlife, art deco architecture, and beautiful beaches?", 
-            options: ["Key West", "Miami Beach", "Fort Lauderdale", "Sarasota"],
-            answer: "Miami Beach"
+            question: "What is the name of the famous coral reef system in the Caribbean, known for its rich marine biodiversity?", 
+            options: ["The Great Barrier Reef", "The Red Sea Coral Reef", "The Caribbean Coral Reef", "The Belize Barrier Reef"],
+            answer: "The Belize Barrier Reef"
         },
         {
-            question: "Which major sports event takes place annually in Daytona Beach, attracting racing enthusiasts from around the world?", 
-            options: ["Super Bowl", "Daytona 500", "The Masters", "World Series"],
-            answer: "Daytona 500"
+            question: "Which famous waterfall is a major tourist attraction in Jamaica, known for its terraced limestone steps?", 
+            options: ["Dunn's River Falls", "YS Falls", "Mayfield Falls", "Reach Falls"],
+            answer: "Dunn's River Falls"
         },
         {
-            question: "What is the name of the iconic swamp-dwelling, reptilian creature often associated with Florida folklore?", 
-            options: ["Bigfoot", "Chupacabra", "Mothman", "Skunk Ape"],
-            answer: "Skunk Ape"
+            question: "Jamaica is the birthplace of which popular sport and music combination?", 
+            options: ["Cricket and Calypso", "Soccer and Samba", "Baseball and Merengue", "Reggae and Cricket"],
+            answer: "Reggae and Cricket"
         },
         {
-            question: "Which Florida city is known for its Cuban influence, colorful art scene, and historic cigar factories?", 
-            options:["Tampa", "Key West", "Miami", "St. Augustine"],
-            answer: "Miami"
+            question: "Which Caribbean island is known for its stunning Pitons, twin volcanic peaks that rise dramatically from the sea?", 
+            options:["Saint Kitts and Nevis", "Saint Lucia", "Dominica", "Saint Vincent and the Grenadines"],
+            answer: "Saint Lucia"
         }
     ],
 
     [
         {
-            question: "What is Florida's nickname?", 
-            options:["The Sunshine State", "The Evergreen State", "The Peach State","The Lone Star State"],
-            answer: "The Sunshine State"
+            question: "Which of the following countries is NOT located in North Africa?", 
+            options:["Egypt", "Nigeria", "Morocco", "Algeria"],
+            answer: "Nigeria"
         },
         {
-            question: "Which city is known for its magical theme parks, including Walt Disney World and Universal Studios?", 
-            options: ["Miami", "Tampa", "Orlando", "Jacksonville"],
-            answer: "Orlando"
+            question: "Which sea is adjacent to the Barbary Coast?", 
+            options: ["Caribbean Sea'", "Mediterranean Sea", "Arabian Sea", "South China Sea"],
+            answer: "Mediterranean Sea"
         },
         {
-            question: "What famous ecosystem is found in southern Florida, characterized by slow-moving rivers and swamps?", 
-            options:[ "The Rocky Mountains", "The Grand Canyon", "The Great Barrier Reef", "The Everglades"],
-            answer: "The Everglades"
+            question: "What is the largest desert in North Africa?", 
+            options:[ "Gobi Desert", "Sahara Desert", "Arabian Desert", "Kalahari Desert"],
+            answer: "Sahara Desert"
         },
         {
-            question: "Which ocean borders Florida to the east", 
-            options:[ "Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
-            answer: "Atlantic Ocean"
+            question: "Which river is one of the longest in the world and flows through North Africa?", 
+            options:[ "Nile River", "Amazon River", "Mississippi River", "Yangtze River"],
+            answer: "Nile River"
         },
         {
-            question: "What is the capital city of Florida?", 
-            options: ["Miami", "Tallahassee", "Orlando", "Tampa"],
-            answer: "Tallahassee"
+            question: "Which city on the Barbary Coast was a notorious pirate stronghold during the 17th century?", 
+            options: ["Algiers", "Tripoli", "Tunis", "Casablanca"],
+            answer: "Algiers"
         },
         {
-            question: "Which famous space launch center is located in Florida?", 
-            options:[ "Kennedy Space Center",  "Cape Canaveral Air Force Station", "Houston Space Center", "SpaceX Launchpad"],
-            answer: "Kennedy Space Center"
+            question: "What is the capital city of Morocco?", 
+            options:["Algiers", "Rabat", "Casablanca", "Cairo"],
+            answer: "Rabat"
         },
         {
-            question: "Which popular tourist destination in Florida is known for its vibrant nightlife, art deco architecture, and beautiful beaches?", 
-            options: ["Key West", "Miami Beach", "Fort Lauderdale", "Sarasota"],
-            answer: "Miami Beach"
+            question: "Which mountain range runs across the northwest of Africa, including parts of Morocco, Algeria, and Tunisia?", 
+            options: ["Himalayas", "Andes", "Atlas Mountains", "Rockies"],
+            answer: "Atlas Mountains"
         },
         {
-            question: "Which major sports event takes place annually in Daytona Beach, attracting racing enthusiasts from around the world?", 
-            options: ["Super Bowl", "Daytona 500", "The Masters", "World Series"],
-            answer: "Daytona 500"
+            question: "In which North African country is the historic city of Alexandria located?", 
+            options: ["Egypt", "Libya", "Sudan", "Algeria"],
+            answer: "Egypt"
         },
         {
-            question: "What is the name of the iconic swamp-dwelling, reptilian creature often associated with Florida folklore?", 
-            options: ["Bigfoot", "Chupacabra", "Mothman", "Skunk Ape"],
-            answer: "Skunk Ape"
+            question: "What is the predominant religion in North Africa?", 
+            options: ["Buddhism", "Christianity", "Hinduism", "Islams"],
+            answer: "Islam"
         },
         {
-            question: "Which Florida city is known for its Cuban influence, colorful art scene, and historic cigar factories?", 
-            options:["Tampa", "Key West", "Miami", "St. Augustine"],
-            answer: "Miami"
+            question: "Which ancient Egyptian structure is a massive stone structure with the head of a human and the body of a lion?", 
+            options:["Sphinx", "Obelisk", "Pyramid of Giza", "Temple of Karnak"],
+            answer: "Sphinx"
         }
     ],
 
     [
         {
-            question: "What is Florida's nickname?", 
-            options:["The Sunshine State", "The Evergreen State", "The Peach State","The Lone Star State"],
-            answer: "The Sunshine State"
+            question: "Which East African country is known as the 'Land of a Thousand Hills'?", 
+            options:["Kenya", "Rwanda", "Tanzania", "Uganda"],
+            answer: "Rwanda"
         },
         {
-            question: "Which city is known for its magical theme parks, including Walt Disney World and Universal Studios?", 
-            options: ["Miami", "Tampa", "Orlando", "Jacksonville"],
-            answer: "Orlando"
+            question: "What is the highest mountain in Africa, located in East Africa?", 
+            options: ["Mount Kilimanjaro", "Mount Kenya", "Mount Elgon", "Mount Rwenzori"],
+            answer: "Mount Kilimanjaro"
         },
         {
-            question: "What famous ecosystem is found in southern Florida, characterized by slow-moving rivers and swamps?", 
-            options:[ "The Rocky Mountains", "The Grand Canyon", "The Great Barrier Reef", "The Everglades"],
-            answer: "The Everglades"
+            question: "What is the capital city of Mauritius?", 
+            options:[ "Port Louis", "Victoria", "Saint-Denis", "Mahebourg"],
+            answer: "Port Louis"
         },
         {
-            question: "Which ocean borders Florida to the east", 
-            options:[ "Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
-            answer: "Atlantic Ocean"
+            question: "Which ocean surrounds Mauritius?", 
+            options:[ "Atlantic Ocean", "Pacific Ocean", "Indian Ocean", "Southern Ocean"],
+            answer: " Indian Ocean"
         },
         {
-            question: "What is the capital city of Florida?", 
-            options: ["Miami", "Tallahassee", "Orlando", "Tampa"],
-            answer: "Tallahassee"
+            question: "Mauritius is known for its stunning coral reefs. What is the famous underwater waterfall illusion near the coast of Mauritius caused by?", 
+            options: ["Tidal movements", "Volcanic activity", "Magnetic fields", "Optical illusion"],
+            answer: "Optical illusion"
         },
         {
-            question: "Which famous space launch center is located in Florida?", 
-            options:[ "Kennedy Space Center",  "Cape Canaveral Air Force Station", "Houston Space Center", "SpaceX Launchpad"],
-            answer: "Kennedy Space Center"
+            question: "Which extinct flightless bird, once native to Mauritius, became a symbol of extinction and conservation efforts?", 
+            options:[ "Dodo", "Kiwi", "Emu", "Cassowary"],
+            answer: "Dodo"
         },
         {
-            question: "Which popular tourist destination in Florida is known for its vibrant nightlife, art deco architecture, and beautiful beaches?", 
-            options: ["Key West", "Miami Beach", "Fort Lauderdale", "Sarasota"],
-            answer: "Miami Beach"
+            question: "Which language is commonly spoken in Mauritius?", 
+            options: ["French", "English", "Creole", "Spanish"],
+            answer: "Creole"
         },
         {
-            question: "Which major sports event takes place annually in Daytona Beach, attracting racing enthusiasts from around the world?", 
-            options: ["Super Bowl", "Daytona 500", "The Masters", "World Series"],
-            answer: "Daytona 500"
+            question: "Which spice, often associated with Mauritius, is derived from the dried berries of a tree native to the island?", 
+            options: ["Cinnamon", "Nutmeg", "Cloves", "Cardamom"],
+            answer: "Cloves"
         },
         {
-            question: "What is the name of the iconic swamp-dwelling, reptilian creature often associated with Florida folklore?", 
-            options: ["Bigfoot", "Chupacabra", "Mothman", "Skunk Ape"],
-            answer: "Skunk Ape"
+            question: "Mauritius is known for its multi-cultural population. What religious festival is celebrated with grandeur and colorful processions on the island?", 
+            options: ["Diwali","Eid al-Fitr", "Holi", "Christmas"],
+            answer: "Diwali"
         },
         {
-            question: "Which Florida city is known for its Cuban influence, colorful art scene, and historic cigar factories?", 
-            options:["Tampa", "Key West", "Miami", "St. Augustine"],
-            answer: "Miami"
+            question: "Mauritius is home to a diverse marine life. What is the name of the endangered species of dolphins commonly found in the waters around Mauritius?", 
+            options:["Bottlenose Dolphin", "Spinner Dolphin", "Humpback Dolphin", "Irrawaddy Dolphin"],
+            answer: "Spinner Dolphin"
         }
     ],
 
     [
         {
-            question: "What is Florida's nickname?", 
-            options:["The Sunshine State", "The Evergreen State", "The Peach State","The Lone Star State"],
-            answer: "The Sunshine State"
+            question: "What is the capital city of Vietnam?", 
+            options:["Hanoi", "Ho Chi Minh City", "Da Nang", "Hue"],
+            answer: "Hanoi"
         },
         {
-            question: "Which city is known for its magical theme parks, including Walt Disney World and Universal Studios?", 
-            options: ["Miami", "Tampa", "Orlando", "Jacksonville"],
-            answer: "Orlando"
+            question: "What is the longest river in Vietnam?", 
+            options: ["Mekong River", "Red River", "Cuu Long River", "Perfume River"],
+            answer: "Red River"
         },
         {
-            question: "What famous ecosystem is found in southern Florida, characterized by slow-moving rivers and swamps?", 
-            options:[ "The Rocky Mountains", "The Grand Canyon", "The Great Barrier Reef", "The Everglades"],
-            answer: "The Everglades"
+            question: "What is the traditional Vietnamese dress, often worn on special occasions, including Tet (Lunar New Year)?", 
+            options:[ "Kimono", "Ao Dai", "Cheongsam", "Sarong"],
+            answer: "Ao Dai"
         },
         {
-            question: "Which ocean borders Florida to the east", 
-            options:[ "Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
-            answer: "Atlantic Ocean"
+            question: "In Vietnamese folklore, what mythical creature is believed to reside in the waters of the Gulf of Tonkin?", 
+            options:[ "Dragon", "Phoenix", "Turtle", "Unicorn"],
+            answer: "Dragon"
         },
         {
-            question: "What is the capital city of Florida?", 
-            options: ["Miami", "Tallahassee", "Orlando", "Tampa"],
-            answer: "Tallahassee"
+            question: "The Gulf of Tonkin is part of which larger body of water?", 
+            options: ["South China Sea", "Gulf of Thailand", "East China Sea", "Philippine Sea"],
+            answer: "South China Sea"
         },
         {
-            question: "Which famous space launch center is located in Florida?", 
-            options:[ "Kennedy Space Center",  "Cape Canaveral Air Force Station", "Houston Space Center", "SpaceX Launchpad"],
-            answer: "Kennedy Space Center"
+            question: "Which city on the Gulf of Tonkin is known for its colonial architecture, vibrant street markets, and as the gateway to Ha Long Bay?", 
+            options:[ "Hai Phong", "Da Nang", "Hanoi", "Hue"],
+            answer: "Hai Phong"
         },
         {
-            question: "Which popular tourist destination in Florida is known for its vibrant nightlife, art deco architecture, and beautiful beaches?", 
-            options: ["Key West", "Miami Beach", "Fort Lauderdale", "Sarasota"],
-            answer: "Miami Beach"
+            question: "Which two countries surround the Gulf of Tonkin?", 
+            options: ["Vietnam and Thailand", "Vietnam and China", "Vietnam and Malaysia", "Vietnam and Cambodia"],
+            answer: "Vietnam and China"
         },
         {
-            question: "Which major sports event takes place annually in Daytona Beach, attracting racing enthusiasts from around the world?", 
-            options: ["Super Bowl", "Daytona 500", "The Masters", "World Series"],
-            answer: "Daytona 500"
+            question: "Which Vietnamese island in the Gulf of Tonkin is known for its stunning landscapes, including beautiful beaches and limestone formations?", 
+            options: ["Phu Quoc", "Cat Ba", "Con Dao", "Cham Island"],
+            answer: "Cat Ba"
         },
         {
-            question: "What is the name of the iconic swamp-dwelling, reptilian creature often associated with Florida folklore?", 
-            options: ["Bigfoot", "Chupacabra", "Mothman", "Skunk Ape"],
-            answer: "Skunk Ape"
+            question: "Which Gulf of Tonkin island is known for its pristine beaches, coral reefs, and is a popular destination for snorkeling and diving?", 
+            options: ["Phu Quoc", "Con Dao", "Cat Ba", "Cham Island"],
+            answer: "Cham Island"
         },
         {
-            question: "Which Florida city is known for its Cuban influence, colorful art scene, and historic cigar factories?", 
-            options:["Tampa", "Key West", "Miami", "St. Augustine"],
-            answer: "Miami"
+            question: "The Gulf of Tonkin is known for its strategic importance in international trade. Which major trading route passes through this gulf?", 
+            options:["Silk Road", "Maritime Silk Road", "Trans-Siberian Railway", "Spice Route"],
+            answer: "Maritime Silk Road"
         }
     ],
 
     [
         {
-            question: "What is Florida's nickname?", 
-            options:["The Sunshine State", "The Evergreen State", "The Peach State","The Lone Star State"],
-            answer: "The Sunshine State"
+            question: "What is the capital city of Indonesia?", 
+            options:["Jakarta", "Bali", "Surabaya", "Bandung"],
+            answer: "Jakarta"
         },
         {
-            question: "Which city is known for its magical theme parks, including Walt Disney World and Universal Studios?", 
-            options: ["Miami", "Tampa", "Orlando", "Jacksonville"],
-            answer: "Orlando"
+            question: "Indonesia is the largest archipelago in the world. How many islands does it approximately consist of?", 
+            options: ["5,000", "10,000", "15,000", "20,000"],
+            answer: "10,000"
         },
         {
-            question: "What famous ecosystem is found in southern Florida, characterized by slow-moving rivers and swamps?", 
-            options:[ "The Rocky Mountains", "The Grand Canyon", "The Great Barrier Reef", "The Everglades"],
-            answer: "The Everglades"
+            question: "What is the name of the active volcano in Indonesia that erupted in 2018 causing a tsunami?", 
+            options:[ "Mount Merapi", "Mount Rinjani", "Mount Agung", "Mount Krakatoa"],
+            answer: "Mount Krakatoa"
         },
         {
-            question: "Which ocean borders Florida to the east", 
-            options:[ "Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
-            answer: "Atlantic Ocean"
+            question: "Which ocean borders Indonesia to the north?", 
+            options:[ "Indian Ocean", "Pacific Ocean", "Arctic Ocean", "Southern Ocean"],
+            answer: "Pacific Ocean"
         },
         {
-            question: "What is the capital city of Florida?", 
-            options: ["Miami", "Tallahassee", "Orlando", "Tampa"],
-            answer: "Tallahassee"
+            question: "What is the famous Komodo National Park known for?", 
+            options: ["Ancient Temples", "Unique Wildlife", "Beautiful Beaches", "Volcanic Craters"],
+            answer: "Unique Wildlife"
         },
         {
-            question: "Which famous space launch center is located in Florida?", 
-            options:[ "Kennedy Space Center",  "Cape Canaveral Air Force Station", "Houston Space Center", "SpaceX Launchpad"],
-            answer: "Kennedy Space Center"
+            question: "What is the currency of Indonesia?", 
+            options:[ "Baht", "Rupiah", "Ringgit", "Dong"],
+            answer: "Rupiah"
         },
         {
-            question: "Which popular tourist destination in Florida is known for its vibrant nightlife, art deco architecture, and beautiful beaches?", 
-            options: ["Key West", "Miami Beach", "Fort Lauderdale", "Sarasota"],
-            answer: "Miami Beach"
+            question: "In which Indonesian island is the famous tourist destination of Bali located?", 
+            options: ["Java", "Sumatra", "Bali", "Sulawesi"],
+            answer: "Bali"
         },
         {
-            question: "Which major sports event takes place annually in Daytona Beach, attracting racing enthusiasts from around the world?", 
-            options: ["Super Bowl", "Daytona 500", "The Masters", "World Series"],
-            answer: "Daytona 500"
+            question: "Which Indonesian island is famous for its indigenous Komodo dragons?", 
+            options: ["Flores", "Java", "Sulawesi", "Komodo"],
+            answer: "Flores"
         },
         {
-            question: "What is the name of the iconic swamp-dwelling, reptilian creature often associated with Florida folklore?", 
-            options: ["Bigfoot", "Chupacabra", "Mothman", "Skunk Ape"],
-            answer: "Skunk Ape"
+            question: "Which strait separates the Indonesian islands of Java and Borneo?", 
+            options: ["Sunda Strait", "Bali Strait", "Lombok Strait", "Karimata Strait"],
+            answer: "Karimata Strait"
         },
         {
-            question: "Which Florida city is known for its Cuban influence, colorful art scene, and historic cigar factories?", 
-            options:["Tampa", "Key West", "Miami", "St. Augustine"],
-            answer: "Miami"
+            question: "Which of the following is a famous Indonesian island known for its traditional Toraja architecture and unique funeral rituals?", 
+            options:["Sumatra", "Sulawesi", "Borneo", "Papua"],
+            answer: "Sulawesi"
         }
     ],
 
     [
         {
-            question: "What is Florida's nickname?", 
-            options:["The Sunshine State", "The Evergreen State", "The Peach State","The Lone Star State"],
-            answer: "The Sunshine State"
+            question: "In which country is the Panama Canal located?", 
+            options:["Colombia", "Panama", "Costa Rica", "Nicaragua"],
+            answer: "Panama"
         },
         {
-            question: "Which city is known for its magical theme parks, including Walt Disney World and Universal Studios?", 
-            options: ["Miami", "Tampa", "Orlando", "Jacksonville"],
-            answer: "Orlando"
-        },
-        {
-            question: "What famous ecosystem is found in southern Florida, characterized by slow-moving rivers and swamps?", 
-            options:[ "The Rocky Mountains", "The Grand Canyon", "The Great Barrier Reef", "The Everglades"],
-            answer: "The Everglades"
-        },
-        {
-            question: "Which ocean borders Florida to the east", 
-            options:[ "Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
+            question: "Which ocean does the Panama Canal primarily connect?", 
+            options: ["Indian Ocean", "Pacific Ocean", "Atlantic Ocean", "Southern Ocean"],
             answer: "Atlantic Ocean"
         },
         {
-            question: "What is the capital city of Florida?", 
-            options: ["Miami", "Tallahassee", "Orlando", "Tampa"],
-            answer: "Tallahassee"
+            question: "What is the artificial lake created by the Gatun Dam in the Panama Canal called?", 
+            options:[ "Lake Panama", "Gatun Lake", "Miraflores Lake", "Culebra Lake"],
+            answer: "Gatun Lake"
         },
         {
-            question: "Which famous space launch center is located in Florida?", 
-            options:[ "Kennedy Space Center",  "Cape Canaveral Air Force Station", "Houston Space Center", "SpaceX Launchpad"],
-            answer: "Kennedy Space Center"
+            question: "What is the name of the narrow strip of land that the Panama Canal traverses?", 
+            options:[ "Darien Gap", "Isthmus of Panama", "Panama Passage", "Culebra Cut"],
+            answer: "Isthmus of Panama"
         },
         {
-            question: "Which popular tourist destination in Florida is known for its vibrant nightlife, art deco architecture, and beautiful beaches?", 
-            options: ["Key West", "Miami Beach", "Fort Lauderdale", "Sarasota"],
-            answer: "Miami Beach"
+            question: "What is the name of the highest point in the Panama Canal that ships pass through on their transit?", 
+            options: ["Culebra Cut", "Balboa Summit", "Gatun Summit", "Pedro Miguel Lock"],
+            answer: "Gatun Summit"
         },
         {
-            question: "Which major sports event takes place annually in Daytona Beach, attracting racing enthusiasts from around the world?", 
-            options: ["Super Bowl", "Daytona 500", "The Masters", "World Series"],
-            answer: "Daytona 500"
+            question: "What is the approximate length of the Panama Canal in miles?", 
+            options:[ "30 miles", "45 miles", "50 miles", "75 miles"],
+            answer: "45 miles"
         },
         {
-            question: "What is the name of the iconic swamp-dwelling, reptilian creature often associated with Florida folklore?", 
-            options: ["Bigfoot", "Chupacabra", "Mothman", "Skunk Ape"],
-            answer: "Skunk Ape"
+            question: "What is the name of the Pacific entrance to the Panama Canal?", 
+            options: ["Balboa Harbor", "Miraflores Locks", "Pacific Gateway", "Punta Pacifica"],
+            answer: "Balboa Harbor"
         },
         {
-            question: "Which Florida city is known for its Cuban influence, colorful art scene, and historic cigar factories?", 
-            options:["Tampa", "Key West", "Miami", "St. Augustine"],
-            answer: "Miami"
+            question: "What is the name of the artificial channel that connects Gatun Lake to the Pacific Ocean in the Panama Canal?", 
+            options: ["Gaillard Cut", "Culebra Cut", "Pedro Miguel Channel", "Balboa Channel"],
+            answer: "Gaillard Cut"
+        },
+        {
+            question: "Which river is dammed to create Gatun Lake in the Panama Canal?", 
+            options: ["Chagres River", "Tuira River", "Santa Maria River", "Bayano River"],
+            answer: "Chagres River"
+        },
+        {
+            question: "What is the approximate time it takes for a vessel to traverse the entire Panama Canal from the Atlantic to the Pacific?", 
+            options:["8 hours", "12 hours", "24 hours", "48 hours"],
+            answer: "12 hours"
         }
     ]
 ];
@@ -933,3 +932,67 @@ const weaponsArr = [
     ["War Hammer", 25],
     ["Boarding Pike", 30]
 ];
+
+// function areYouSure(event){
+    //     event.preventDefault();
+    //     event.stopPropagation();
+    //     let playerQuit = event.target;
+
+    //     triviaQuestion.innerHTML = "Are you sure you want to quit?"
+
+    //     answerButtons.replaceChildren();
+
+    //     parentContainer = document.getElementById("question-container");
+
+
+    //     let quittingButtons = document.createElement("div");
+    //     quittingButtons.setAttribute("id", "answer-button");
+    //     parentContainer.insertBefore(quittingButtons, answerButtons);
+
+    //     let yesQuit = document.createElement("input");
+    //     yesQuit.setAttribute("type", "button");
+    //     yesQuit.setAttribute("value", `Yes, Quit`);
+    //     yesQuit.setAttribute("id", "yes-quit");
+    //     quittingButtons.appendChild(yesQuit);
+
+    //     let noQuit = document.createElement("input");
+    //     noQuit.setAttribute("type", "button");
+    //     noQuit.setAttribute("value", `No, Continue Game`);
+    //     noQuit.setAttribute("id", "no-continue");
+    //     quittingButtons.appendChild(noQuit);
+
+    //     quittingButtons.addEventListener("click", function(eventquit){
+    //         eventquit.preventDefault();
+    //         eventquit.stopPropagation();
+
+    //         if(eventquit.target.getAttribute("id") === "yes-quit"){
+    //             let closeInfoSection = document.getElementById("player-info");
+    //             closeInfoSection.classList.remove("hidden");
+    //             closeInfoSection.classList.add("hidden");
+
+    //             let closeInventorySection = document.getElementById("weapon-inventory");
+    //             closeInventorySection.classList.remove("hidden");
+    //             closeInventorySection.classList.add("hidden");
+
+    //             let closemainSection = document.getElementById("main-text");
+    //             closemainSection.classList.remove("hidden");
+    //             closemainSection.classList.add("hidden");
+
+    //             let closeInteractSection = document.getElementById("interact");
+    //             closeInteractSection.classList.remove("hidden");
+    //             closeInteractSection.classList.add("hidden");
+
+    //             let closeMemberSection = document.getElementById("member-inventory");
+    //             closeMemberSection.classList.remove("hidden");
+    //             closeMemberSection.classList.add("hidden");
+                
+    //             endGame("during");
+    //         }
+    //         else{
+    //             return;
+    //         }
+    //     })
+
+    // }
+
+    // let gameQuitButton = document.getElementById("quit");
