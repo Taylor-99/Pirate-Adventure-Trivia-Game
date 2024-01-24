@@ -249,32 +249,40 @@ function destination(captain, level){
 
     let badPirate = new Pirates(opponentArr[level-1][0], opponentArr[level-1][1], opponentArr[level-1][2], opponentArr[level-1][3])
 
-    let infoSection = document.getElementById("player-info");
-    infoSection.classList.remove("hidden");
+    if(level === 1){
+        let infoSection = document.getElementById("player-info");
+        infoSection.classList.remove("hidden");
 
-    let inventorySection = document.getElementById("weapon-inventory");
-    inventorySection.classList.remove("hidden");
+        let mainSection = document.getElementById("main-text");
+        mainSection.classList.remove("hidden");
 
-    let mainSection = document.getElementById("main-text");
-    mainSection.classList.remove("hidden");
+        let  memberSection = document.getElementById("member-inventory");
+        memberSection.classList.remove("hidden");
 
-    let  memberSection = document.getElementById("member-inventory");
-    memberSection.classList.remove("hidden");
+        let interactSection = document.getElementById("interact");
+        interactSection.classList.remove("hidden");
 
-    let interactSection = document.getElementById("interact");
-    interactSection.classList.remove("hidden")
+        let inventorySection = document.getElementById("weapon-inventory");
+        inventorySection.classList.remove("hidden");
+    }
+
+    console.log("im in the destination")
 
     let insertCaptainName = document.getElementById("name");
     let insertCrewName = document.getElementById("crew-name");
     let insertDoubloons = document.getElementById("money");
     let insertHealth = document.getElementById("health");
-    let stopButton = document.getElementById("quit");
-    stopButton.style.backgroundColor = "#FF7F7F";
+    // let stopButton = document.getElementById("quit");
+    // stopButton.style.backgroundColor = "#FF7F7F";
+
+    console.log("got elements from html")
 
     insertCaptainName.innerHTML = `${captain.name}`;
     insertCrewName.innerHTML = `${captain.crew}`;
     insertDoubloons.innerHTML = `${captain.doubloons}`;
     insertHealth.innerHTML = `${captain.health}`;
+
+    console.log("updated values")
 
     let levelNumber = document.getElementById("level-number");
     let destinationLocation = document.getElementById("destination");
@@ -297,6 +305,8 @@ function destination(captain, level){
 
     continueDestination.appendChild(destinationText);
     continueDestination.appendChild(destinationButton);
+
+    console.log("continue to next")
 
     destinationButton.addEventListener("click", function(event) {
         event.preventDefault();
@@ -550,7 +560,7 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain){
 
     let rewardScreen = document.getElementById("trivia-question");
     let nextDestinationButtons = document.getElementById("answer-buttons");
-    rewardScreen.style.fontSize = "20px"
+    // rewardScreen.style.fontSize = "20px"
 
     let nextDestinationButton = document.createElement("input");
     nextDestinationButton.setAttribute("type", "button");
@@ -595,7 +605,7 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain){
         rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the reward be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
     }
 
-    nextDestinationButton.addEventListener("click", function(event){
+    nextDestinationButtons.addEventListener("click", function(event){
 
         event.preventDefault();
         event.stopPropagation();
@@ -605,11 +615,16 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain){
         }
 
         let continueOn = event.target.getAttribute("id");
+        let hideTriviaSection = document.getElementById("trivia-text");
+
+        hideTriviaSection.classList.add("hidden");
 
         if (continueOn === "continue-destination"){
-            rewardScreen.remove();
-            nextDestinationButton.replaceChildren();
+            rewardScreen.replaceChildren();
+            nextDestinationButtons.replaceChildren();
+            // maintriviaSection.replaceChildren();
             changeLevel = changeLevel + 1
+            console.log("continue to level " + changeLevel)
             destination(keepCaptain, changeLevel);
         }
         else if(continueOn === "end-here"){

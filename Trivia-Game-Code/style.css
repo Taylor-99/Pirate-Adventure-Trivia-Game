@@ -234,13 +234,13 @@ main {
 
 #question-marker{
     font-weight: bold;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 #trivia-question{
     justify-content: space-between;
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
 }
 
 #answer-buttons{
