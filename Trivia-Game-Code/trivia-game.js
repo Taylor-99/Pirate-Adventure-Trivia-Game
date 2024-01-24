@@ -22,9 +22,16 @@ class BadPirates extends Pirates{
         this.meetingText = meetingText;
     }
 
-    powerUp(currentHealth){
+    powerUp(currentHealth, piratePosition){
 
-        currentHealth = currentHealth + 100;
+        if(piratePosition === "Captain"){
+            currentHealth = currentHealth + 100;
+        }
+        else{
+            randomPowerUp = Math.floor(Math.random() * (75 - 25) + 25)
+
+            currentHealth = currentHealth + randomPowerUp;
+        }
     }
 
 
@@ -172,20 +179,22 @@ function getNames(nameSection){
             nameText.remove();
             inputName.remove();
 
-            startGame(captainName, crewName, nameSection);
+            let inputNames = [captainName, crewName]
+
+            startGame(inputNames, nameSection);
 
         });
     });
 
 }
 
-function startGame(captainName1, crewName1, startSection){
+function startGame(playerNames, startSection){
 
     let startText = document.createElement("p");
     startText.setAttribute("id", "intro-text");
     startSection.appendChild(startText);
 
-    startText.innerHTML = `Avast, Captain ${captainName1}! The ship awaits, and the horizon beckons.<br><br>Instructions:<br><br>You will be traveling to 7 destinations where you will battle bad pirates. For each battle you will answer 10 trivia questions and if you get 4 questions wrong, you will lose the battle. At the end of each battle you will have the chance to win doubloons (money), a new crew member and/or a weapon depending on the number of answers you got correct.<br><br>You will also gain help throughout the adventure, whether it is from your crew members or a new weapon.<br><br> Adventure awaits! (You can quit anytime during the game)`
+    startText.innerHTML = `Avast, Captain ${playerNames[0]}! The ship awaits, and the horizon beckons.<br><br>Instructions:<br><br>You will be traveling to 7 destinations where you will battle bad pirates. For each battle you will answer 10 trivia questions and if you get 4 questions wrong, you will lose the battle. At the end of each battle you will have the chance to win doubloons (money), a new crew member and/or a weapon depending on the number of answers you got correct.<br><br>You will also gain help throughout the adventure, whether it is from your crew members or a new weapon.<br><br> Adventure awaits! (You can quit anytime during the game)`
 
     let startButtons = document.createElement("div");
 
@@ -223,9 +232,9 @@ function startGame(captainName1, crewName1, startSection){
             startText.remove();
             startButtons.remove();
 
-            let playerCaptain = new Captain(`Captain ${captainName1}`, crewName1, "Captain");
+            let playerCaptain = new Captain(`Captain ${playerNames[0]}`, playerNames[1], "Captain");
 
-            destination(playerCaptain, 1, "Florida Keys", ["Vanguard", "Shadow Serpents", "Captain"]);
+            destination(playerCaptain, 1);
         }
         else if(continueChoice === "no-dontStart"){
             startText.remove();
@@ -293,7 +302,7 @@ function destination(captain, level){
 
         destinationButton.remove();
 
-        destinationText.innerHTML = `Shiver me timbers, ${captain.name}! ${opponentArr[level-1][3]}.`
+        destinationText.innerHTML = `Shiver me timbers, ${captain.name}! ${opponentArr[level-1][3]} <br><br> Continue on to the trivia game to battle it out`
         
         let continueButton = document.createElement("input");
         continueButton.setAttribute("id", "continue1");
@@ -303,6 +312,14 @@ function destination(captain, level){
 
         continueDestination.appendChild(continueButton);
 
+        // let dontContinueButton = document.createElement("input");
+        // dontContinueButton.setAttribute("id", "dontcontinue1");
+        // dontContinueButton.setAttribute("type", "button");
+        // dontContinueButton.setAttribute("value", "retreat");
+        // dontContinueButton.style.backgroundColor = "#FF7F7F";
+
+        // continueDestination.appendChild(dontContinueButton);
+
         continueButton.addEventListener("click", function(event) {
             event.preventDefault();
             let continueEvent = event.target;
@@ -310,30 +327,42 @@ function destination(captain, level){
             if(continueEvent.tagName !== "INPUT" || continueEvent.getAttribute("type") !== "button"){
                 return;
             }
-    
-            destinationText.remove();
-            destinationButton.remove();
-    
-            continueDestination.setAttribute("class", "hidden");
 
-            triviaGame(captain, badPirate, level, destinations.island);
+            let continue1Choice = continueEvent.getAttribute("id");
 
-            return;
+            if(continue1Choice === "continue1"){
+                destinationText.remove();
+                destinationButton.remove();
+        
+                continueDestination.setAttribute("class", "hidden");
+    
+                triviaGame(captain, badPirate, level, destinations.island);
+            }
+            // else if (continue1Choice === "dontcontinue1"){
+
+            //     infoSection.classList.add("hidden");
+            //     inventorySection.classList.add("hidden");
+            //     mainSection.classList.add("hidden");
+
+            //     destinationText.remove();
+            //     destinationButton.remove();
+
+            //     console.log("They want to retreat")
+
+            //     endGame("during", captain.name);
+            // }
             
         });
-
-        return;
-
     });
 }
 
-function triviaGame(captain1, badPirate1, currentLevel, currentDestination){
+function triviaGame(playingCaptain, playingBadPirate, startingLevel, currentDestination){
 
     let levelNumber1 = document.getElementById("level-number");
     let destinationLocation1 = document.getElementById("destination");
     destinationLocation1.style.fontWeight = "normal"
 
-    levelNumber1.innerHTML = currentLevel;
+    levelNumber1.innerHTML = startingLevel;
     destinationLocation1.innerHTML = currentDestination;
 
     let triviaScreen = document.getElementById("trivia-text");
@@ -346,52 +375,52 @@ function triviaGame(captain1, badPirate1, currentLevel, currentDestination){
     let opponentNameTrivia = document.getElementById("opponent-name");
     let opponentHealthTrivia = document.getElementById("opponent-health");
 
-    playerNameTrivia.innerHTML = `${captain1.name} `;
-    playerhealthTrivia.innerHTML = `${captain1.health}`;
-    playerweaponTrivia.innerHTML = `${captain1.weapon[captain1.weapon.length - 1][0]}`;
-    opponentNameTrivia.innerHTML = `${badPirate1.name} `;
-    opponentHealthTrivia.innerHTML = `${badPirate1.health}`;
+    playerNameTrivia.innerHTML = `${playingCaptain.name} `;
+    playerhealthTrivia.innerHTML = `${playingCaptain.health}`;
+    playerweaponTrivia.innerHTML = `${playingCaptain.weapon[playingCaptain.weapon.length - 1][0]}`;
+    opponentNameTrivia.innerHTML = `${playingBadPirate.name} `;
+    opponentHealthTrivia.innerHTML = `${playingBadPirate.health}`;
 
     let startCorrect = 0;
-    let startQuestionNum = 0;
+    let startQuestionNum = 1;
     let startWrong = 0;
 
-    newQuestion(triviaQandA[currentLevel-1], startCorrect, startQuestionNum, startWrong, currentLevel)
+    newQuestion(triviaQandA[startingLevel-1], startCorrect, startQuestionNum, startWrong, startingLevel, playingCaptain, playingBadPirate)
 
 }
 
-function newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, level2){
+function newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, currentLevel, currentCaptain, currentBadPirate){
 
 
     let questionNumber = document.getElementById("question-number");
-    questionNumber.innerHTML = `${questionNum+1} / 10`;
+    questionNumber.innerHTML = `${questionNum} / 10`;
 
     let triviaQuestion = document.getElementById("trivia-question");
-    triviaQuestion.innerHTML = `${triviaQandAArr[questionNum].question}`
+    triviaQuestion.innerHTML = `${triviaQandAArr[questionNum-1].question}`
 
     let answerButtons = document.getElementById("answer-buttons");
 
     let optionASubmit = document.createElement("input");
     optionASubmit.setAttribute("type", "button");
-    optionASubmit.setAttribute("value", `${triviaQandAArr[questionNum].options[0]}`);
+    optionASubmit.setAttribute("value", `${triviaQandAArr[questionNum-1].options[0]}`);
     optionASubmit.setAttribute("id", "optionA");
     answerButtons.appendChild(optionASubmit);
 
     let optionBSubmit = document.createElement("input");
     optionBSubmit.setAttribute("type", "button");
-    optionBSubmit.setAttribute("value", `${triviaQandAArr[questionNum].options[1]}`);
+    optionBSubmit.setAttribute("value", `${triviaQandAArr[questionNum-1].options[1]}`);
     optionBSubmit.setAttribute("id", "optionB");
     answerButtons.appendChild(optionBSubmit);
 
     let optionCSubmit = document.createElement("input");
     optionCSubmit.setAttribute("type", "button");
-    optionCSubmit.setAttribute("value", `${triviaQandAArr[questionNum].options[2]}`);
+    optionCSubmit.setAttribute("value", `${triviaQandAArr[questionNum-1].options[2]}`);
     optionCSubmit.setAttribute("id", "optionC");
     answerButtons.appendChild(optionCSubmit);
 
     let optionDSubmit = document.createElement("input");
     optionDSubmit.setAttribute("type", "button");
-    optionDSubmit.setAttribute("value", `${triviaQandAArr[questionNum].options[3]}`);
+    optionDSubmit.setAttribute("value", `${triviaQandAArr[questionNum-1].options[3]}`);
     optionDSubmit.setAttribute("id", "optionD");
     answerButtons.appendChild(optionDSubmit);
 
@@ -400,9 +429,13 @@ function newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, level2){
         event.stopPropagation();
         let answerEvent = event.target;
 
+        if(answerEvent.tagName !== "INPUT" || answerEvent.getAttribute("type") !== "button"){
+            return;
+        }
+
         let answerChoice = answerEvent.getAttribute("value");
 
-        checkAnswer(answerChoice, triviaQandAArr[questionNum].answer, numCorrect, numWrong, questionNum, triviaQandAArr, answerButtons, level2, getAnswer);
+        checkAnswer(answerChoice, triviaQandAArr[questionNum-1].answer, numCorrect, numWrong, questionNum, triviaQandAArr, answerButtons, currentLevel, getAnswer, currentCaptain, currentBadPirate);
     }
 
     answerButtons.addEventListener("click", getAnswer);
@@ -410,37 +443,90 @@ function newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, level2){
 }
 // https://www.altcademy.com/blog/how-to-make-a-quiz-in-javascript/
 
-function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum, triviaArr, aButtons, level3, answerFunction){
-
-    console.log(playerAnswer)
-    console.log(correctAnswer)
+function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum, triviaArr, aButtons, continueLevel, answerFunction, changeCaptain, changeBadPirate){
 
     if(playerAnswer === correctAnswer){
         correct++;
-        console.log("Correct " + correct)
+        changeBadPirate.health = changeBadPirate.health - (changeCaptain.weapon[changeCaptain.weapon.length -1][1]);
+        let changeBadPirateHealth = document.getElementById("opponent-health");
+        changeBadPirateHealth.innerHTML = `${changeBadPirate.health}`;
+
+        function correctResultsScreen(){
+
+            aButtons.replaceChildren();
+            let resultScreenCorrect = document.getElementById("trivia-question");
+            resultScreenCorrect.innerHTML = `Correct<br><br>${changeBadPirate.name} took a hit`;
+        
+            let nextButton = document.createElement("input");
+            nextButton.setAttribute("type", "button");
+            nextButton.setAttribute("value", `Next Question`);
+            aButtons.appendChild(nextButton);
+            nextButton.style.backgroundColor = "#90EE90";
+        
+            nextButton.addEventListener("click", function(event){
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                if(event.target.tagName !== "INPUT" || event.target.getAttribute("type") !== "button"){
+                    return;
+                }
+
+                triviaQandANum = triviaQandANum + 1;
+                
+                if (triviaQandANum <= 10){
+                    aButtons.replaceChildren();
+                    aButtons.removeEventListener("click", answerFunction);
+                    newQuestion(triviaArr, correct, triviaQandANum, wrong, continueLevel, changeCaptain, changeBadPirate);
+                }
+                
+            });
+        }
+        correctResultsScreen()
     }
     else{
         wrong++;
-        console.log("Wrong " + wrong);
+        changeCaptain.health = changeCaptain.health - 10;
+        let changeCaptainHealth = document.getElementById("player-health");
+        changeCaptainHealth.innerHTML = `${changeCaptain.health}`;
+
+        function wrongResultsScreen(){
+
+            aButtons.replaceChildren();
+            let resultScreenWrong = document.getElementById("trivia-question");
+            resultScreenWrong.innerHTML = `Incorrect<br><br>You took a hit`;
+        
+            let nextButton = document.createElement("input");
+            nextButton.setAttribute("type", "button");
+            nextButton.setAttribute("value", `Next Question`);
+            aButtons.appendChild(nextButton);
+            nextButton.style.backgroundColor = "#90EE90";
+        
+            nextButton.addEventListener("click", function(event){
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                if(event.target.tagName !== "INPUT" || event.target.getAttribute("type") !== "button"){
+                    return;
+                }
+
+                triviaQandANum = triviaQandANum + 1;
+
+                if (triviaQandANum <= 10){
+                    aButtons.replaceChildren();
+                    aButtons.removeEventListener("click", answerFunction);
+                    newQuestion(triviaArr, correct, triviaQandANum, wrong, continueLevel, changeCaptain, changeBadPirate);
+                }
+                
+            });
+        
+        }
+        wrongResultsScreen()
     };
-
-    triviaQandANum = triviaQandANum + 1;
-
-    if (triviaQandANum < 10){
-        aButtons.replaceChildren();
-        aButtons.removeEventListener("click", answerFunction)
-        newQuestion(triviaArr, correct, triviaQandANum, wrong, level3);
-    }
-    else{
-        return;
-    }
-
 }
 // https://www.altcademy.com/blog/how-to-make-a-quiz-in-javascript/
 
-function triviaEndScreen(){
-
-}
 
 function endGame(keyWord, yourName = ""){
 
