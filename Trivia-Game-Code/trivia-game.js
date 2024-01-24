@@ -256,7 +256,13 @@ function destination(captain, level){
     inventorySection.classList.remove("hidden");
 
     let mainSection = document.getElementById("main-text");
-    mainSection.classList.remove("hidden")
+    mainSection.classList.remove("hidden");
+
+    let  memberSection = document.getElementById("member-inventory");
+    memberSection.classList.remove("hidden");
+
+    let interactSection = document.getElementById("interact");
+    interactSection.classList.remove("hidden")
 
     let insertCaptainName = document.getElementById("name");
     let insertCrewName = document.getElementById("crew-name");
@@ -336,7 +342,7 @@ function destination(captain, level){
         
                 continueDestination.setAttribute("class", "hidden");
     
-                triviaGame(captain, badPirate, level, destinations.island);
+                triviaGame(captain, badPirate, level, destinations[level-1].island);
             }
             // else if (continue1Choice === "dontcontinue1"){
 
@@ -479,6 +485,14 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
                     aButtons.removeEventListener("click", answerFunction);
                     newQuestion(triviaArr, correct, triviaQandANum, wrong, continueLevel, changeCaptain, changeBadPirate);
                 }
+                else if(triviaQandANum === 11){
+                    aButtons.replaceChildren();
+                    aButtons.removeEventListener("click", answerFunction);
+                    triviaEndScreen(wrong, continueLevel, changeCaptain, changeBadPirate)
+                }
+                else if(changeCaptain.health <= 20){
+                    endGame("poor health", changeCaptain.name);
+                }
                 
             });
         }
@@ -518,6 +532,11 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
                     aButtons.removeEventListener("click", answerFunction);
                     newQuestion(triviaArr, correct, triviaQandANum, wrong, continueLevel, changeCaptain, changeBadPirate);
                 }
+                else if(triviaQandANum === 11){
+                    aButtons.replaceChildren();
+                    aButtons.removeEventListener("click", answerFunction);
+                    triviaEndScreen(wrong, endLevel, changeCaptain, changeBadPirate)
+                }
                 
             });
         
@@ -527,8 +546,123 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
 }
 // https://www.altcademy.com/blog/how-to-make-a-quiz-in-javascript/
 
+function triviaEndScreen(wrongCount, changeLevel, keepCaptain){
+
+    let rewardScreen = document.getElementById("trivia-question");
+    let nextDestinationButtons = document.getElementById("answer-buttons");
+    rewardScreen.style.fontSize = "20px"
+
+    let nextDestinationButton = document.createElement("input");
+    nextDestinationButton.setAttribute("type", "button");
+    nextDestinationButton.setAttribute("value", `Forward, to Next Destination`);
+    nextDestinationButton.setAttribute("id", `continue-destination`); 
+    nextDestinationButtons.appendChild(nextDestinationButton);
+    nextDestinationButton.style.backgroundColor = "#90EE90";
+
+    let endJourneyButton = document.createElement("input");
+    endJourneyButton.setAttribute("type", "button");
+    endJourneyButton.setAttribute("value", `End Journey Here`);
+    endJourneyButton.setAttribute("id", `end-here`);
+    nextDestinationButtons.appendChild(endJourneyButton);
+    endJourneyButton.style.backgroundColor = "#FF7F7F";
+
+    if(changeLevel < 6){
+
+        let rewardDoubloons = getDoubloons(changeLevel);
+        let newMember = crewArr[changeLevel - 1];
+        let newCrewMember = new Pirates(newMember[0], keepCaptain.crew, newMember[1])
+
+        keepCaptain.weapon.push(weaponsArr[changeLevel - 1])
+        keepCaptain.crewMembers.push(newCrewMember);
+        keepCaptain.doubloons = keepCaptain.doubloons + rewardDoubloons
+
+        if(wrongCount === 0){
+            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the rewards be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>**New Crew Member:** ${newCrewMember.name}<br>**Weapon Acquired:** ${weaponsArr[changeLevel - 1][0]}<br><br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+        }
+        else if(wrongCount === 1 || wrongCount === 2){
+            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the rewards be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>**New Crew Member:** ${newCrewMember.name}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+        }
+        else if(wrongCount === 3){
+            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the reward be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+        }
+
+    }
+    else{
+        let rewardDoubloons = getDoubloons(changeLevel);
+
+        keepCaptain.doubloons = keepCaptain.doubloons + rewardDoubloons
+
+        rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the reward be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+    }
+
+    nextDestinationButton.addEventListener("click", function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(event.target.tagName !== "INPUT" || event.target.getAttribute("type") !== "button"){
+            return;
+        }
+
+        let continueOn = event.target.getAttribute("id");
+
+        if (continueOn === "continue-destination"){
+            rewardScreen.remove();
+            nextDestinationButton.replaceChildren();
+            changeLevel = changeLevel + 1
+            destination(keepCaptain, changeLevel);
+        }
+        else if(continueOn === "end-here"){
+            endGame("during", keepCaptain.name);
+        }
+        
+    });
+}
+
+function getDoubloons(useLevel){
+
+    if(useLevel === 1){
+        return Math.round(Math.random() * (2000 - 500) + 500);
+    }
+    else if(useLevel === 2){
+        return Math.round(Math.random() * (3000 - 1500) + 1500);
+    }
+    else if(useLevel === 3){
+        return Math.round(Math.random() * (4000 - 2500) + 2500);
+    }
+    else if(useLevel === 4){
+        return Math.round(Math.random() * (5000 - 3500) + 3500);
+    }
+    else if(useLevel === 5){
+        return Math.round(Math.random() * (6000 - 4500) + 4500);
+    }
+    else if(useLevel === 6){
+        return Math.round(Math.random() * (9000 - 6500) + 6500);
+    }
+    else if(useLevel === 6){
+        return Math.round(Math.random() * (11000 - 8500) + 8500);
+    }
+
+}
+
 
 function endGame(keyWord, yourName = ""){
+
+    let closeInfoSection = document.getElementById("player-info");
+    closeInfoSection.classList.remove("hidden");
+    closeInfoSection.classList.add("hidden");
+
+    let closeInventorySection = document.getElementById("weapon-inventory");
+    closeInventorySection.classList.remove("hidden");
+    closeInventorySection.classList.add("hidden");
+
+    let closeMainSection = document.getElementById("main-text");
+    closeMainSection.classList.remove("hidden");
+    closeMainSection.classList.add("hidden");
+
+    let closeMemberSection = document.getElementById("member-inventory");
+    closeMemberSection.classList.remove("hidden");
+    closeMemberSection.classList.add("hidden");
 
     let endSection = document.getElementById("intro");
 
@@ -546,6 +680,9 @@ function endGame(keyWord, yourName = ""){
     else if(keyWord === "during"){
 
         endText.innerHTML = `Fair winds, ${yourName}! As ye choose to part ways with the open sea, know that the Pirate Adventure Trivia Game remains a tale of what could have been. May yer future endeavors be as prosperous as the horizon we left behind.<br><br>Should ye ever feel the call of the ocean, remember the tales of yer time on the high seas. Until then, may yer compass guide ye ashore.<br><br>Thank ye for venturing into the Pirate Adventure Trivia Game!`
+    }
+    else if(keyWord === "poor health"){
+        endText.innerHTML = `Ahoy, ${yourName}!<br><br>Ye health be as fragile as glass, and the perils of the pirate life have taken their toll. The sea be a harsh mistress, and unfortunately, yer journey ends here.<br><br>Though the waves may have conquered ye, remember the adventures and the tales of the high seas. May the winds carry ye memories to Davy Jones' locker.<br><br>Fair winds and a kinder fate on yer next voyage!`
     }
 
     let endButton = document.createElement("div");
@@ -1011,7 +1148,6 @@ const crewArr = [
 ];
 
 const weaponsArr = [
-    ["Fist", 5],
     ["Cutlass", 10],
     ["Rapier", 15],
     ["Dagger", 20],
