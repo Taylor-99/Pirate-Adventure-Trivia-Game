@@ -42,7 +42,7 @@
 
         <div id="weapon-info">Weapons:
             <ul id="weapon-list">
-
+                <li>&nbsp;Fist</li>
             </ul>
             
         </div>
@@ -54,6 +54,9 @@
         <p id="interact-heading">Need Help?</p>
 
         <div class="help-buttons">
+
+            <input type="button" value="Skip Question" id="skip-question" class="hidden"/>
+            <input type="button" value="Get Doctor" id="doctor-help" class="hidden"/>
             
         </div>
 
@@ -63,19 +66,20 @@
 
         <p id="level">Level <span id="level-number"></span><br><br> Destination: <span id="destination"></span></p>
 
-        <div id="destination-text">
-
+        <div id="destination-info">
+            <p id="destination-text"></p>
+            <input type="button" id="currentDestination"/>
         </div>
 
         <div id="trivia-text" class="hidden">
 
             <div id="battle-specs">
                 
-                <p id="player" class="battle" ><span id="player-name"></span> Health: <span class="game-input" id="player-health"></span></p>
+                <p id="player" class="battle" ><span id="player-name"> </span> Health:&nbsp;<span class="game-input" id="player-health"></span></p>
 
-                <p class="battle" ><span id="opponent-name"></span> Health: <span class="game-input" id="opponent-health"></span></p>
+                <p class="battle" ><span id="opponent-name"></span> Health:&nbsp;<span class="game-input" id="opponent-health"></span></p>
 
-                <p class="battle">Weapon: <span class="game-input" id="weapon"></span></p>
+                <p class="battle">Weapon:&nbsp;<span class="game-input" id="weapon"></span></p>
 
             </div>
 

@@ -157,7 +157,7 @@ li{
 }
 
 .help-buttons{
-    display: inline-flex;
+    display: block;
     flex-wrap: wrap;
     justify-content: space-between;
     align-content: space-evenly;
@@ -165,7 +165,7 @@ li{
 
 #interact{
     background-color: #CECAB3;
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -200,7 +200,8 @@ main {
     margin: auto;
 }
 
-#destination-text{
+#destination-info{
+    background-color: white;
     position: sticky;
     align-self: center;
     margin: auto;
