@@ -269,9 +269,6 @@ function destination(captain, level, arrayNum){
     let  memberSection = document.getElementById("member-inventory");
     memberSection.classList.remove("hidden");
 
-    let interactSection = document.getElementById("interact");
-    interactSection.classList.remove("hidden");
-
     let inventorySection = document.getElementById("weapon-inventory");
     inventorySection.classList.remove("hidden");
 
@@ -431,33 +428,6 @@ function newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, currentL
     }
 
     answerButtons.addEventListener("click", getAnswer);
-
-    let getHelp = document.getElementById("help-buttons");
-
-    function getHelpTrivia(helpEvent){
-        helpEvent.preventDefault();
-        helpEvent.stopPropagation();
-
-        if(helpEvent.target.tagName !== "INPUT" || helpEvent.target.getAttribute("type") !== "button"){
-            return;
-        }
-
-        let helpChoice = helpEvent.target.getAttribute("id");
-
-        if(helpChoice === "doctor-help"){
-            currentCaptain.health = currentCaptain.health + 20;
-        }
-        else if(helpChoice === "skip-question"){
-            numCorrect++;
-            questionNum = questionNum + 1;
-
-            answerButtons.replaceChildren();
-            answerButtons.removeEventListener("click", getAnswer);
-
-            newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, currentLevel, currentCaptain, currentBadPirate, arrayNum2);
-        }
-        
-    }
 }
 // https://www.altcademy.com/blog/how-to-make-a-quiz-in-javascript/
 
@@ -524,7 +494,7 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
                     aButtons.removeEventListener("click", answerFunction);
                     triviaEndScreen(wrong, continueLevel, changeCaptain, arrayNum3)
                 }
-                else if(changeCaptain.health <= 20){
+                if(changeCaptain.health <= 20){
                     endGame("poor health", changeCaptain.name);
                 }
                 
@@ -577,7 +547,7 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
                     aButtons.removeEventListener("click", answerFunction);
                     triviaEndScreen(wrong, continueLevel, changeCaptain, arrayNum3)
                 }
-                else if(changeCaptain.health <= 20){
+                if(changeCaptain.health <= 20){
                     endGame("poor health", changeCaptain.name);
                 }
                 
@@ -671,34 +641,33 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
         }
     }
 
-    nextDestinationButtons.addEventListener("click", function(event){
+    // creates the copy of 
+    let copy = nextDestinationButtons.cloneNode(true);
 
+
+    nextDestinationButtons.remove();
+    copy.addEventListener("click", function(event){
+        
         event.preventDefault();
         event.stopPropagation();
-
+        
         if(event.target.tagName !== "INPUT" || event.target.getAttribute("type") !== "button"){
             return;
         }
-
+        
         let continueOn = event.target.getAttribute("id");
         let hideTriviaSection = document.getElementById("trivia-text");
         let nextDestination = document.getElementById("destination-info")
-
+        
         hideTriviaSection.classList.add("hidden");
-
+        
         if (continueOn === "continue-destination"){
             rewardScreen.replaceChildren();
-            nextDestinationButtons.replaceChildren();
+            copy.replaceChildren();
             nextDestination.classList.remove("hidden");
             changeLevel = changeLevel + 1;
             arrayNum4 = arrayNum4 + 1;
-
-            if(changeLevel === 2){
-                let showSkip = document.getElementById("skip-question");
-                showSkip.classList.remove("hidden");
-                let showDoctor = document.getElementById("doctor-help");
-                showDoctor.classList.remove("hidden");
-            }
+    
             destination(keepCaptain, changeLevel, arrayNum4);
         }
         else if(continueOn === "end-here"){
@@ -706,6 +675,10 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
         }
         
     });
+
+    //appends the copy of the nextDestinationButtons container to the question container where the nextDestinationButton container is
+    let container = document.querySelector("#question-container");
+    container.append(copy)
 }
 
 //gives the player a random number of doubloons as rewards during the game so that they have enough to use the help after the first level.
@@ -754,10 +727,6 @@ function endGame(keyWord, yourName = ""){
     closeMemberSection.classList.remove("hidden");
     closeMemberSection.classList.add("hidden");
 
-    let closeInteractSection = document.getElementById("interact");
-    closeInteractSection.classList.remove("hidden");
-    closeInteractSection.classList.add("hidden");
-
     let endSection = document.getElementById("intro");
 
     endSection.style.backgroundColor = "white";
@@ -779,34 +748,6 @@ function endGame(keyWord, yourName = ""){
         endText.innerHTML = `Ahoy, ${yourName}!<br><br>Ye health be as fragile as glass, and the perils of the pirate life have taken their toll. The sea be a harsh mistress, and unfortunately, yer journey ends here.<br><br>Though the waves may have conquered ye, remember the adventures and the tales of the high seas. May the winds carry ye memories to Davy Jones' locker.<br><br>Fair winds and a kinder fate on yer next voyage!`
     }
 
-    // let endButton = document.createElement("div");
-
-    // endSection.appendChild(endButton);
-    // endButton.setAttribute("class", "intro-button");
-
-    // let backButton = document.createElement("input");
-    // backButton.setAttribute("id", "back");
-    // backButton.setAttribute("type", "button");
-    // backButton.setAttribute("value", "Back to the Beginning");
-
-    // backButton.style.backgroundColor = "#90EE90";
-
-    // endButton.appendChild(backButton);
-
-    // endButton.addEventListener("click", function(event) {
-    //     event.preventDefault();
-    //     let endGame = event.target;
-
-    //     if(endGame.tagName !== "INPUT"){
-    //         return;
-    //     }
-
-    //     endText.remove();
-    //     endButton.remove();
-
-    //     introduction();
-    // })
-
 };
 
 introduction()
@@ -819,7 +760,7 @@ const destinations = [
 
     {
     island: "Port Royal",
-    text: `The ship drops anchor at the second destination, Port Royal. The land holds new challenges, mysteries, and untold treasures. Brace yerself for the next chapter of the Pirate Adventure Trivia Game!<br><br>You now have the options to skip a question (500 doubloons) or ask for a doctor if you health gets too low (1000 doubloons), Be aware it does cost money`
+    text: `The ship drops anchor at the second destination, Port Royal. The land holds new challenges, mysteries, and untold treasures. Brace yerself for the next chapter of the Pirate Adventure Trivia Game!<br><br>A doctor if you health gets too low (1000 doubloons), Be aware it does cost money`
     },
 
     {
