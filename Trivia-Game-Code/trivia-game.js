@@ -1,3 +1,5 @@
+
+// class to create pirates
 class Pirates {
     constructor(name, crew, position){
         this.name = name;
@@ -7,6 +9,7 @@ class Pirates {
     }
 }
 
+// class to create the player as the captain
 class Captain extends Pirates{
     constructor(name, crew, position){
         super(name, crew, position)
@@ -16,21 +19,29 @@ class Captain extends Pirates{
     }
 }
 
+//class to create the bad pirates throughout the game
 class BadPirates extends Pirates{
     constructor(name, crew, position, meetingText){
         super(name, crew, position)
         this.meetingText = meetingText;
     }
 
+    //used during the game to let the trivia battles get a lot harder 
     powerUp(currentHealth, piratePosition){
 
+        //the last bad pirate they will battle will be the captain, so they get 100
         if(piratePosition === "Captain"){
             currentHealth = currentHealth + 100;
+
+            return currentHealth
         }
         else{
+            // any other pirate will get a random number for their power up
             randomPowerUp = Math.floor(Math.random() * (75 - 25) + 25)
 
             currentHealth = currentHealth + randomPowerUp;
+
+            return currentHealth
         }
     }
 
@@ -325,7 +336,7 @@ function destination(captain, level, arrayNum){
                 destinationButton.replaceChildren();
         
                 continueDestination.classList.add("hidden");
-    
+
                 triviaGame(captain, badPirate, level, destinations[arrayNum].island, arrayNum);
             }
         }
@@ -347,6 +358,7 @@ function triviaGame(playingCaptain, playingBadPirate, startingLevel, currentDest
 
     let triviaScreen = document.getElementById("trivia-text");
 
+    console.log("trivia text screen visable")
     triviaScreen.classList.remove("hidden");
 
     let playerNameTrivia = document.getElementById("player-name");
@@ -371,6 +383,7 @@ function triviaGame(playingCaptain, playingBadPirate, startingLevel, currentDest
 
 function newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, currentLevel, currentCaptain, currentBadPirate, arrayNum2){
 
+    console.log(triviaQandAArr[questionNum - 1])
     let questionNumber = document.getElementById("question-number");
     questionNumber.innerHTML = `${questionNum} / 10`;
 
@@ -418,6 +431,33 @@ function newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, currentL
     }
 
     answerButtons.addEventListener("click", getAnswer);
+
+    let getHelp = document.getElementById("help-buttons");
+
+    function getHelpTrivia(helpEvent){
+        helpEvent.preventDefault();
+        helpEvent.stopPropagation();
+
+        if(helpEvent.target.tagName !== "INPUT" || helpEvent.target.getAttribute("type") !== "button"){
+            return;
+        }
+
+        let helpChoice = helpEvent.target.getAttribute("id");
+
+        if(helpChoice === "doctor-help"){
+            currentCaptain.health = currentCaptain.health + 20;
+        }
+        else if(helpChoice === "skip-question"){
+            numCorrect++;
+            questionNum = questionNum + 1;
+
+            answerButtons.replaceChildren();
+            answerButtons.removeEventListener("click", getAnswer);
+
+            newQuestion(triviaQandAArr, numCorrect, questionNum, numWrong, currentLevel, currentCaptain, currentBadPirate, arrayNum2);
+        }
+        
+    }
 }
 // https://www.altcademy.com/blog/how-to-make-a-quiz-in-javascript/
 
@@ -425,6 +465,9 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
 
     console.log("choice " + playerAnswer);
     console.log("answer " + correctAnswer);
+
+    let triviaTextScreen = document.getElementById("trivia-text");
+    triviaTextScreen.classList.remove("hidden");
 
     if(playerAnswer === correctAnswer){
         correct++;
@@ -434,11 +477,19 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
 
         function correctResultsScreen(){
 
-            console.log("correct");
+            if(continueLevel >= 3 && changeBadPirateHealth.health < 20){
 
-            aButtons.replaceChildren();
-            let resultScreenCorrect = document.getElementById("trivia-question");
-            resultScreenCorrect.innerHTML = `Correct<br><br>${changeBadPirate.name} took a hit`;
+                changeBadPirate.health = changeBadPirate.powerUp(changeBadPirate.health, changeBadPirate.position)
+
+                aButtons.replaceChildren();
+                let resultScreenCorrect = document.getElementById("trivia-question");
+                resultScreenCorrect.innerHTML = `Correct<br><br>${changeBadPirate.name} took a hit<br><br> Oh No!!!, ${changeBadPirate.name}, having mended their wounds and replenished their stores, stands ready for another skirmish.<br><br>Ye be facing a resilient adversary, Captain. Prepare yer crew and weapons, for the battle ahead promises to be even more intense.`;
+            }
+            else{
+                aButtons.replaceChildren();
+                let resultScreenCorrect = document.getElementById("trivia-question");
+                resultScreenCorrect.innerHTML = `Correct<br><br>${changeBadPirate.name} took a hit`;
+            }
         
             let nextButton = document.createElement("input");
             nextButton.setAttribute("type", "button");
@@ -458,12 +509,17 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
                 triviaQandANum = triviaQandANum + 1;
                 console.log(triviaQandANum);
                 
-                if (triviaQandANum <= 10){
+                if (triviaQandANum <= 10 && wrong !== 4 && changeCaptain.health > 20){
                     aButtons.replaceChildren();
                     aButtons.removeEventListener("click", answerFunction);
                     newQuestion(triviaArr, correct, triviaQandANum, wrong, continueLevel, changeCaptain, changeBadPirate, arrayNum3);
                 }
                 else if(triviaQandANum === 11){
+                    aButtons.replaceChildren();
+                    aButtons.removeEventListener("click", answerFunction);
+                    triviaEndScreen(wrong, continueLevel, changeCaptain, arrayNum3)
+                }
+                else if(wrong === 4){
                     aButtons.replaceChildren();
                     aButtons.removeEventListener("click", answerFunction);
                     triviaEndScreen(wrong, continueLevel, changeCaptain, arrayNum3)
@@ -478,6 +534,7 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
     }
     else{
         wrong++;
+        console.log(wrong)
         changeCaptain.health = changeCaptain.health - 10;
         let changeCaptainHealth = document.getElementById("player-health");
         changeCaptainHealth.innerHTML = `${changeCaptain.health}`;
@@ -505,7 +562,7 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
 
                 triviaQandANum = triviaQandANum + 1;
 
-                if (triviaQandANum <= 10){
+                if (triviaQandANum <= 10 && wrong !== 4 && changeCaptain.health > 20){
                     aButtons.replaceChildren();
                     aButtons.removeEventListener("click", answerFunction);
                     newQuestion(triviaArr, correct, triviaQandANum, wrong, continueLevel, changeCaptain, changeBadPirate, arrayNum3);
@@ -513,7 +570,15 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
                 else if(triviaQandANum === 11){
                     aButtons.replaceChildren();
                     aButtons.removeEventListener("click", answerFunction);
-                    triviaEndScreen(wrong, endLevel, changeCaptain, arrayNum3)
+                    triviaEndScreen(wrong, continueLevel, changeCaptain, arrayNum3)
+                }
+                else if(wrong === 4){
+                    aButtons.replaceChildren();
+                    aButtons.removeEventListener("click", answerFunction);
+                    triviaEndScreen(wrong, continueLevel, changeCaptain, arrayNum3)
+                }
+                else if(changeCaptain.health <= 20){
+                    endGame("poor health", changeCaptain.name);
                 }
                 
             });
@@ -587,14 +652,23 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
 
             rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the reward be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
         }
+        else if(wrongCount === 4){
+            rewardScreen.innerHTML = `Ahoy, ${keepCaptain.name}!<br>Ye faced a formidable foe on the trivia battlefield, but alas, the pirate's cunning wit and knowledge prevailed. Despite yer valiant efforts, four questions slipped through like a ghostly ship in the night.<br><br>The battle be lost, and the pirate, with a wry grin, claims victory. Fear not, for every defeat be a step closer to victory. May the winds of wisdom favor ye in future battles,  ${keepCaptain.name}!`
+        }
 
     }
     else{
+
+        if(wrongCount === 4){
+            rewardScreen.innerHTML = `Ahoy, ${keepCaptain.name}!<br>Ye faced a formidable foe on the trivia battlefield, but alas, the pirate's cunning wit and knowledge prevailed. Despite yer valiant efforts, four questions slipped through like a ghostly ship in the night.<br><br>The battle be lost, and the pirate, with a wry grin, claims victory. Fear not, for every defeat be a step closer to victory. May the winds of wisdom favor ye in future battles,  ${keepCaptain.name}!`
+        }
+        else{
         let rewardDoubloons = getDoubloons(changeLevel);
 
         keepCaptain.doubloons = keepCaptain.doubloons + rewardDoubloons
 
         rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the reward be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+        }
     }
 
     nextDestinationButtons.addEventListener("click", function(event){
@@ -618,7 +692,7 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
             nextDestination.classList.remove("hidden");
             changeLevel = changeLevel + 1;
             arrayNum4 = arrayNum4 + 1;
-            
+
             if(changeLevel === 2){
                 let showSkip = document.getElementById("skip-question");
                 showSkip.classList.remove("hidden");
@@ -634,36 +708,7 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
     });
 }
 
-// function nextLevel(sameCaptain, newLevel, newArrayNum){
-//     let anotherBadPirate = new Pirates(opponentArr[arrayNum][0], opponentArr[arrayNum][1], opponentArr[arrayNum][2], opponentArr[arrayNum][3]);
-
-//     let newInsertCaptainName = document.getElementById("name");
-//     let newInsertCrewName = document.getElementById("crew-name");
-//     let newInsertDoubloons = document.getElementById("money");
-//     let newInsertHealth = document.getElementById("health");
-
-//     newInsertCaptainName.innerHTML = `${sameCaptain.name}`;
-//     newInsertCrewName.innerHTML = `${sameCaptain.crew}`;
-//     newInsertDoubloons.innerHTML = `${sameCaptain.doubloons}`;
-//     newInsertHealth.innerHTML = `${sameCaptain.health}`;
-
-//     let newLevelNumber = document.getElementById("level-number");
-//     let newDestinationLocation = document.getElementById("destination");
-//     newDestinationLocation.style.fontWeight = "normal"
-
-//     newLevelNumber.innerHTML = level;
-//     newDestinationLocation.innerHTML = destinations[arrayNum].island;
-
-//     let newContinueDestination = document.getElementById("destination-info");
-    
-//     let newDestinationText = document.getElementById("destination-text");
-//     newDestinationText.innerHTML = `Land ho, ${sameCaptain.name}! ${destinations[arrayNum].text}`
-
-//     let newDestinationButton = document.getElementById("currentDestination");
-//     newDestinationButton.setAttribute("value", `Explore the ${destinations[arrayNum].island}`);
-//     newDestinationButton.style.backgroundColor = "#90EE90";
-// }
-
+//gives the player a random number of doubloons as rewards during the game so that they have enough to use the help after the first level.
 function getDoubloons(useLevel){
 
     if(useLevel === 1){
@@ -709,6 +754,10 @@ function endGame(keyWord, yourName = ""){
     closeMemberSection.classList.remove("hidden");
     closeMemberSection.classList.add("hidden");
 
+    let closeInteractSection = document.getElementById("interact");
+    closeInteractSection.classList.remove("hidden");
+    closeInteractSection.classList.add("hidden");
+
     let endSection = document.getElementById("intro");
 
     endSection.style.backgroundColor = "white";
@@ -730,33 +779,33 @@ function endGame(keyWord, yourName = ""){
         endText.innerHTML = `Ahoy, ${yourName}!<br><br>Ye health be as fragile as glass, and the perils of the pirate life have taken their toll. The sea be a harsh mistress, and unfortunately, yer journey ends here.<br><br>Though the waves may have conquered ye, remember the adventures and the tales of the high seas. May the winds carry ye memories to Davy Jones' locker.<br><br>Fair winds and a kinder fate on yer next voyage!`
     }
 
-    let endButton = document.createElement("div");
+    // let endButton = document.createElement("div");
 
-    endSection.appendChild(endButton);
-    endButton.setAttribute("class", "intro-button");
+    // endSection.appendChild(endButton);
+    // endButton.setAttribute("class", "intro-button");
 
-    let backButton = document.createElement("input");
-    backButton.setAttribute("id", "back");
-    backButton.setAttribute("type", "button");
-    backButton.setAttribute("value", "Back to the Beginning");
+    // let backButton = document.createElement("input");
+    // backButton.setAttribute("id", "back");
+    // backButton.setAttribute("type", "button");
+    // backButton.setAttribute("value", "Back to the Beginning");
 
-    backButton.style.backgroundColor = "#90EE90";
+    // backButton.style.backgroundColor = "#90EE90";
 
-    endButton.appendChild(backButton);
+    // endButton.appendChild(backButton);
 
-    endButton.addEventListener("click", function(event) {
-        event.preventDefault();
-        let endGame = event.target;
+    // endButton.addEventListener("click", function(event) {
+    //     event.preventDefault();
+    //     let endGame = event.target;
 
-        if(endGame.tagName !== "INPUT"){
-            return;
-        }
+    //     if(endGame.tagName !== "INPUT"){
+    //         return;
+    //     }
 
-        endText.remove();
-        endButton.remove();
+    //     endText.remove();
+    //     endButton.remove();
 
-        introduction();
-    })
+    //     introduction();
+    // })
 
 };
 
@@ -876,7 +925,7 @@ const triviaQandA = [
             answer: "Kingston"
         },
         {
-            question: "Which city is known for its magical theme parks, including Walt Disney World and Universal Studios?", 
+            question: "Which reggae legend is often referred to as the 'King of Reggae' and hails from Jamaica?", 
             options: ["Jimmy Cliff", "Toots Hibbert", "Bob Marley", "Damian Marley"],
             answer: "Bob Marley"
         },
