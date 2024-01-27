@@ -17,34 +17,6 @@ class Captain extends Pirates{
         this.crewMembers = [];
         this.weapon = [["Fist", 5]];
     }
-
-    //gives the player a random number of doubloons as rewards during the game so that they have enough to use the help after the first level. Takes in the input of the current level the player is on
-    getDoubloons(useLevel){
-
-        //for each level a random number is generated within different ranges and then rounded up to a while number to return 
-        if(useLevel === 1){
-            return Math.round(Math.random() * (2000 - 500) + 500);
-        }
-        else if(useLevel === 2){
-            return Math.round(Math.random() * (3000 - 1500) + 1500);
-        }
-        else if(useLevel === 3){
-            return Math.round(Math.random() * (4000 - 2500) + 2500);
-        }
-        else if(useLevel === 4){
-            return Math.round(Math.random() * (5000 - 3500) + 3500);
-        }
-        else if(useLevel === 5){
-            return Math.round(Math.random() * (6000 - 4500) + 4500);
-        }
-        else if(useLevel === 6){
-            return Math.round(Math.random() * (9000 - 6500) + 6500);
-        }
-        else if(useLevel === 6){
-            return Math.round(Math.random() * (11000 - 8500) + 8500);
-        }
-    }
-
 }
 
 //class to create the bad pirates throughout the game
