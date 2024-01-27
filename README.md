@@ -39,6 +39,11 @@ Your User stories – who are your users, what do they want and why?
 -As a friend or family, I want to see what Taylor has created and give feedback on user experience
 
 Your Wireframes – sketches of major views / interfaces in your application
+![IMG_7270](https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/837304c1-18c9-4fb4-8cf0-f526aa4d508a)
+![IMG_7271](https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/2fcf9ceb-ef1e-45ae-84f9-cfc2d201f4a8)
+![IMG_7272](https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/88cbaba0-4d6b-44f6-a4a5-a6349885cf32)
+![IMG_7273](https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/1a8ea9ee-68d9-43d6-a2d8-c42b24c755a9)
+![IMG_7274](https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/0d62e26b-9d1d-4a4e-aa33-c697c666c5e5)
 
 Descriptions of any Unsolved problems or major hurdles you had to overcome
 
