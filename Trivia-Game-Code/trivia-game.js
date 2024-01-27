@@ -840,7 +840,7 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
             keepCaptain.doubloons = keepCaptain.doubloons + rewardDoubloons
 
             //updates the "reward-screen" text
-            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the rewards be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>**New Crew Member:** ${newCrewMember.name}<br>**Weapon Acquired:** ${weaponsArr[arrayNum4][0]}<br><br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the rewards be plenty for a pirate of yer caliber:<br><b>**Doubloons Gained:**</b>${rewardDoubloons}<br>**New Crew Member:** ${newCrewMember.name}<br><b>**Weapon Acquired:**</b>${weaponsArr[arrayNum4][0]}<br><br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
 
             //adds the new member to the screen with the "members-list" element
             let memberList = document.getElementById("member-list");
@@ -862,7 +862,7 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
             keepCaptain.doubloons = keepCaptain.doubloons + rewardDoubloons
 
             //updates the "reward-screen" text
-            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the rewards be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>**New Crew Member:** ${newCrewMember.name}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the rewards be plenty for a pirate of yer caliber:<br><b>**Doubloons Gained:**</b>${rewardDoubloons}<br><b>**New Crew Member:**</b>${newCrewMember.name}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
 
             //adds the new member to the screen with the "member-list" element
             let memberList = document.getElementById("member-list");
@@ -876,7 +876,7 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
             keepCaptain.doubloons = keepCaptain.doubloons + rewardDoubloons
 
             //updates the "reward-screen" text
-            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the reward be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the reward be plenty for a pirate of yer caliber:<br><b>**Doubloons Gained:**</b>${rewardDoubloons}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
         }
         else if(wrongCount === 4){
 
@@ -903,7 +903,7 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
         keepCaptain.doubloons = keepCaptain.doubloons + rewardDoubloons
 
         //updates the "reward-screen" text
-        rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the reward be plenty for a pirate of yer caliber:<br>**Doubloons Gained:** ${rewardDoubloons}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+        rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the reward be plenty for a pirate of yer caliber:<br><b>**Doubloons Gained:**</b>${rewardDoubloons}<br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
         }
     }
 
@@ -1022,25 +1022,11 @@ function endGame(keyWord, yourName = ""){
         endText.innerHTML = `Ahoy, ${yourName}!<br><br>Ye health be as fragile as glass, and the perils of the pirate life have taken their toll. The sea be a harsh mistress, and unfortunately, yer journey ends here.<br><br>Though the waves may have conquered ye, remember the adventures and the tales of the high seas. May the winds carry ye memories to Davy Jones' locker.<br><br>Fair winds and a kinder fate on yer next voyage!`
     }
     //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
-    //if the player finishes the game
+    else if(keyWord === "complete"){
+
+        endText.innerHTML = `Ahoy, Captain ${yourName}!<br><brYe have fought valiantly on the shores of knowledge, defeating the bad pirate in a fierce trivia battle on land. The victory be yers, and the defeated pirate slinks away in shame.<br><br>The cheers of victory echo through the land as yer crew revels in the glory of success.<br><br>May the stars guide ye on future quests, ${yourName}!`
+
+    }
     
 };
 
