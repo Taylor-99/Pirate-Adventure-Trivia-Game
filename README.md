@@ -7,7 +7,16 @@ An embedded screenshot of the app
 <img width="1440" alt="Screenshot 2024-01-27 at 3 40 52 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/22244aee-cc9a-402d-a78e-712ca165ec44">
 <img width="1440" alt="Screenshot 2024-01-27 at 3 41 34 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/560a1dd9-06f8-4f57-8e3c-4552d74a0023">
 <img width="1440" alt="Screenshot 2024-01-27 at 3 41 59 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/a04befe8-417c-4375-9818-4017c952930d">
-
+<img width="1440" alt="Screenshot 2024-01-27 at 5 51 40 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/75ae5ba8-7bfc-4c3a-84cf-3e15886be952">
+<img width="1440" alt="Screenshot 2024-01-27 at 3 42 33 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/9835c6c2-0371-4e98-bc41-f4083f5afb81">
+<img width="1440" alt="Screenshot 2024-01-27 at 5 54 25 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/ec429575-5b05-4ddb-90cf-042aee1dd932">
+<img width="1440" alt="Screenshot 2024-01-27 at 3 43 35 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/5edc3d80-8321-4e53-b09f-4931923cf8ed">
+<img width="1440" alt="Screenshot 2024-01-27 at 3 46 14 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/ef107716-e3a1-4244-812d-c3a9ebcc4c1e">
+<img width="1440" alt="Screenshot 2024-01-27 at 6 00 26 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/2ca8bd84-25bd-4831-aa3f-e001846e4994">
+<img width="1440" alt="Screenshot 2024-01-27 at 6 05 28 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/eca1b814-8ac2-42a0-9717-f8a15ffa5bb3">
+<img width="1440" alt="Screenshot 2024-01-27 at 3 44 36 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/2292015f-eb90-4ae4-95e4-35cbd7b55499">
+<img width="1440" alt="Screenshot 2024-01-27 at 3 46 35 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/6059534a-7d0d-4ba6-9dfa-3bbc0a90e162">
+<img width="1440" alt="Screenshot 2024-01-27 at 4 19 33 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/81c395f1-38b0-43e7-a3e6-2dbff2488dc5">
 
 List of the Technologies used
 
