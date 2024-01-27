@@ -592,12 +592,12 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
 
             let inCritical = false
 
-            if(changeBadPirate.health < 20 && continueLevel >=3){
+            if(changeBadPirate.health < 25 && continueLevel >=3){
                 inCritical = true
             }
 
             //conditions for future levels when the pirate is in bad shape
-            if(inCritical === true){
+            if(inCritical === true && triviaQandANum > 10){
 
                 //used during the game to let the trivia battles get a lot harder 
                 function powerUp(currentHealth, piratePosition){
@@ -727,12 +727,12 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
 
             let inCritical = false
 
-            if(keepCaptain.health < 30 && continueLevel >=3){
+            if(changeCaptain.health < 30 && continueLevel >=3){
                 inCritical = true
             }
 
             //conditions for future levels when the pirate is in bad shape
-            if(inCritical === true && keepCaptain.doubloons > 1000){
+            if(inCritical === true && changeCaptain.doubloons > 1000 && triviaQandANum > 10){
 
                 //used during the game to let the trivia battles get a lot harder 
                 function seeDoctor(currentHealth,  currentDoubloons){
@@ -748,14 +748,14 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
 
                 let payforDoc = []
                 //calls the seeDoctor function in the bad pirate class
-                payforDoc = seeDoctor(keepCaptain.health, keepCaptain.doubloons)
+                payforDoc = seeDoctor(changeCaptain.health, changeCaptain.doubloons)
 
-                keepCaptain.health = payforDoc[0]
-                keepCaptain.doubloons = payforDoc[1]
+                changeCaptain.health = payforDoc[0]
+                changeCaptain.doubloons = payforDoc[1]
 
                 let doctorHealth = document.getElementById("player-health");
 
-                doctorHealth.innerHTML = `${keepCaptain.health}`
+                doctorHealth.innerHTML = `${changeCaptain.health}`
 
                 //the children of the "answer-buttons" div container is replaced
                 aButtons.replaceChildren();
@@ -1076,7 +1076,7 @@ function endGame(keyWord, yourName = ""){
     //if the player finishes the game
     else if(keyWord === "complete"){
 
-        endText.innerHTML = `Ahoy, Captain ${yourName}!<br><brYe have fought valiantly on the shores of knowledge, defeating the bad pirate in a fierce trivia battle on land. The victory be yers, and the defeated pirate slinks away in shame.<br><br>The cheers of victory echo through the land as yer crew revels in the glory of success.<br><br>May the stars guide ye on future quests, ${yourName}!`
+        endText.innerHTML = `Ahoy, ${yourName}!<br><br>Ye have fought valiantly on the shores of knowledge, defeating the bad pirate in a fierce trivia battle on land. The victory be yers, and the defeated pirate slinks away in shame.<br><br>The cheers of victory echo through the land as yer crew revels in the glory of success.<br><br>May the stars guide ye on future quests, ${yourName}!`
 
     }
     
