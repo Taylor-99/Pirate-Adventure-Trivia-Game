@@ -17,6 +17,33 @@ class Captain extends Pirates{
         this.crewMembers = [];
         this.weapon = [["Fist", 5]];
     }
+
+    //gives the player a random number of doubloons as rewards during the game so that they have enough to use the help after the first level. Takes in the input of the current level the player is on
+    getDoubloons(useLevel){
+
+        //for each level a random number is generated within different ranges and then rounded up to a while number to return 
+        if(useLevel === 1){
+            return Math.round(Math.random() * (2000 - 500) + 500);
+        }
+        else if(useLevel === 2){
+            return Math.round(Math.random() * (3000 - 1500) + 1500);
+        }
+        else if(useLevel === 3){
+            return Math.round(Math.random() * (4000 - 2500) + 2500);
+        }
+        else if(useLevel === 4){
+            return Math.round(Math.random() * (5000 - 3500) + 3500);
+        }
+        else if(useLevel === 5){
+            return Math.round(Math.random() * (6000 - 4500) + 4500);
+        }
+        else if(useLevel === 6){
+            return Math.round(Math.random() * (9000 - 6500) + 6500);
+        }
+        else if(useLevel === 6){
+            return Math.round(Math.random() * (11000 - 8500) + 8500);
+        }
+    }
 }
 
 //class to create the bad pirates throughout the game
@@ -697,14 +724,14 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
 
         function wrongResultsScreen(){
 
-            let inCritical = false
+            let lowPlayerHealth = false
 
             if(changeCaptain.health < 30 && continueLevel >=3){
-                inCritical = true
+                lowPlayerHealth = true
             }
 
             //conditions for future levels when the pirate is in bad shape
-            if(inCritical === true && changeCaptain.doubloons > 1000 && triviaQandANum > 10){
+            if(lowPlayerHealth === true && changeCaptain.doubloons > 1000 && triviaQandANum > 10){
 
                 //used during the game to let the trivia battles get a lot harder 
                 function seeDoctor(currentHealth,  currentDoubloons){
@@ -1068,12 +1095,12 @@ const destinations = [
     //level 2
     {
     island: "Port Royal",
-    text: `The ship drops anchor at the second destination, Port Royal. The land holds new challenges, mysteries, and untold treasures. Brace yerself for the next chapter of the Pirate Adventure Trivia Game!<br><br>A doctor will help if you health gets too low (1000 doubloons), Be aware it does cost money`
+    text: `The ship drops anchor at the second destination, Port Royal. The land holds new challenges, mysteries, and untold treasures. Brace yerself for the next chapter of the Pirate Adventure Trivia Game!`
     },
     // level 3
     {
     island: "Barbury Coast",
-    text: `The ship graces the shores of the third destination, The Barbury Coast. The mysterious island awaits with secrets to unveil and treasures to be discovered.`
+    text: `The ship graces the shores of the third destination, The Barbury Coast. The mysterious island awaits with secrets to unveil and treasures to be discovered.<br><br>Be Aware, the Bad pirate can power up if their health is too Low.<br><br>A doctor will help if you health gets too low, Be aware it does cost money (1000 doubloons)`
     },
 
     {
