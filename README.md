@@ -4,6 +4,9 @@ An embedded screenshot of the app
 <img width="1440" alt="Screenshot 2024-01-27 at 4 19 33 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/199534b3-0856-4ecd-b9f6-f3c9a26293bf">
 <img width="1440" alt="Screenshot 2024-01-27 at 3 39 47 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/fbd8a1fc-c1d7-4b0d-bcf2-c860c4335bf2">
 <img width="1440" alt="Screenshot 2024-01-27 at 3 40 23 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/d3fc4aa1-ffc9-4612-a743-b10509fd54ba">
+<img width="1440" alt="Screenshot 2024-01-27 at 3 40 52 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/22244aee-cc9a-402d-a78e-712ca165ec44">
+<img width="1440" alt="Screenshot 2024-01-27 at 3 41 34 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/560a1dd9-06f8-4f57-8e3c-4552d74a0023">
+<img width="1440" alt="Screenshot 2024-01-27 at 3 41 59 AM" src="https://github.com/Taylor-99/Project-1-Trivia-Game/assets/86860002/a04befe8-417c-4375-9818-4017c952930d">
 
 
 List of the Technologies used
