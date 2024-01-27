@@ -44,6 +44,7 @@ class Captain extends Pirates{
             return Math.round(Math.random() * (11000 - 8500) + 8500);
         }
     }
+
 }
 
 //class to create the bad pirates throughout the game
@@ -52,27 +53,6 @@ class BadPirates extends Pirates{
         super(name, crew, position)
         this.meetingText = meetingText;
     }
-
-    //used during the game to let the trivia battles get a lot harder 
-    powerUp(currentHealth, piratePosition){
-
-        //the last bad pirate they will battle will be the captain, so they get 100
-        if(piratePosition === "Captain"){
-            currentHealth = currentHealth + 100;
-
-            return currentHealth
-        }
-        else{
-            // any other pirate will get a random number for their power up
-            randomPowerUp = Math.floor(Math.random() * (75 - 25) + 25)
-
-            currentHealth = currentHealth + randomPowerUp;
-
-            return currentHealth
-        }
-    }
-
-
 }
 
 // This function gives the user basic info about the game and ask if they would like to continue on to the game
@@ -297,7 +277,7 @@ function startGame(playerNames, startSection){
     startSection.appendChild(startText);
 
     //Text is added into the created p element that tells the player about the basics of the game
-    startText.innerHTML = `Avast, Captain ${playerNames[0]}! The ship awaits, and the horizon beckons.<br><br>Instructions:<br><br>You will be traveling to 7 destinations where you will battle bad pirates. For each battle you will answer 10 trivia questions and if you get 4 questions wrong, you will lose the battle. At the end of each battle you will have the chance to win doubloons (money), a new crew member and/or a weapon depending on the number of answers you got correct.<br><br>You will also gain help throughout the adventure, whether it is from your crew members or a new weapon.<br><br> Adventure awaits! (You can quit anytime during the game)`
+    startText.innerHTML = `Avast, Captain ${playerNames[0]}! The ship awaits, and the horizon beckons.<br><br>Instructions:<br><br>You will be traveling to 7 destinations where you will battle bad pirates. For each battle you will answer 10 trivia questions and if you get 4 questions wrong, you will lose the battle. At the end of each battle you will have the chance to win doubloons (money), a new crew member and/or a weapon depending on the number of answers you got correct.<br><br>Adventure awaits! (You can quit anytime during the game)`
 
     //a div container is creates to hold the buttons and is given the id attribute "get-info". It is then added to the "intro" div
     let startButtons = document.createElement("div");
@@ -610,11 +590,40 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
         //function will display that the player got the question right
         function correctResultsScreen(){
 
+            let inCritical = false
+
+            if(changeBadPirate.health < 20 && continueLevel >=3){
+                inCritical = true
+            }
+
             //conditions for future levels when the pirate is in bad shape
-            if(continueLevel > 2 && changeBadPirateHealth.health < 20){
+            if(inCritical === true){
+
+                //used during the game to let the trivia battles get a lot harder 
+                function powerUp(currentHealth, piratePosition){
+
+                    //the last bad pirate they will battle will be the captain, so they get 100
+                    if(piratePosition === "Captain"){
+                        currentHealth = currentHealth + 100;
+
+                        return currentHealth
+                    }
+                    else{
+                        // any other pirate will get a random number for their power up
+                        randomPowerUp = Math.round(Math.floor(Math.random() * (50 - 25) + 25))
+
+                        currentHealth = currentHealth + randomPowerUp;
+
+                        return currentHealth
+                    }
+                }
 
                 //calls the power up function in the bad pirate class
-                changeBadPirate.health = changeBadPirate.powerUp(changeBadPirate.health, changeBadPirate.position)
+                changeBadPirate.health = powerUp(changeBadPirate.health, changeBadPirate.position)
+
+                let powerUpHealth = document.getElementById("opponent-health");
+
+                powerUpHealth.innerHTML = `${changeBadPirate.health}`
 
                 //the children of the "answer-buttons" div container is replaced
                 aButtons.replaceChildren();
@@ -716,12 +725,55 @@ function checkAnswer(playerAnswer, correctAnswer, correct, wrong, triviaQandANum
 
         function wrongResultsScreen(){
 
-            //the children of the "answer-buttons" div container is replaced
-            aButtons.replaceChildren();
+            let inCritical = false
 
-            //the "trivia-question" element is called and the new text is input into it
-            let resultScreenWrong = document.getElementById("trivia-question");
-            resultScreenWrong.innerHTML = `Incorrect<br><br>You took a hit`;
+            if(keepCaptain.health < 30 && continueLevel >=3){
+                inCritical = true
+            }
+
+            //conditions for future levels when the pirate is in bad shape
+            if(inCritical === true && keepCaptain.doubloons > 1000){
+
+                //used during the game to let the trivia battles get a lot harder 
+                function seeDoctor(currentHealth,  currentDoubloons){
+
+                    currentHealth = currentHealth + 25;
+
+                    currentDoubloons = currentDoubloons - 1000
+
+                    let healthArr = [currentHealth, currentDoubloons]
+
+                    return healthArr;
+                }
+
+                let payforDoc = []
+                //calls the seeDoctor function in the bad pirate class
+                payforDoc = seeDoctor(keepCaptain.health, keepCaptain.doubloons)
+
+                keepCaptain.health = payforDoc[0]
+                keepCaptain.doubloons = payforDoc[1]
+
+                let doctorHealth = document.getElementById("player-health");
+
+                doctorHealth.innerHTML = `${keepCaptain.health}`
+
+                //the children of the "answer-buttons" div container is replaced
+                aButtons.replaceChildren();
+
+                //the "trivia-question" element is called and the new text is input into it
+                let resultScreenWrong = document.getElementById("trivia-question");
+                resultScreenWrong.innerHTML = `Incorrect<br><br>You took a hit<br><br> Aye ${keepCaptain.name} In the midst of the battles and perils of the high seas, ye got the help of a skilled doctor. With their healing touch and vast knowledge of the medical arts, your health is on the mend.`;
+
+            }
+            else{
+
+                //the children of the "answer-buttons" div container is replaced
+                aButtons.replaceChildren();
+
+                //the "trivia-question" element is called and the new text is input into it
+                let resultScreenWrong = document.getElementById("trivia-question");
+                resultScreenWrong.innerHTML = `Incorrect<br><br>You took a hit`;
+            }
         
 
             // a new input button is created to take the user to the next question
@@ -839,8 +891,9 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
             keepCaptain.crewMembers.push(newCrewMember);
             keepCaptain.doubloons = keepCaptain.doubloons + rewardDoubloons
 
+
             //updates the "reward-screen" text
-            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the rewards be plenty for a pirate of yer caliber:<br><b>**Doubloons Gained:**</b>${rewardDoubloons}<br>**New Crew Member:** ${newCrewMember.name}<br><b>**Weapon Acquired:**</b>${weaponsArr[arrayNum4][0]}<br><br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
+            rewardScreen.innerHTML = `Avast, ${keepCaptain.name}!<br>Ye have sailed the seas with cunning and courage, and the rewards be plenty for a pirate of yer caliber:<br><b>**Doubloons Gained:**</b>${rewardDoubloons}<br><b>**New Crew Member:**<b>${newCrewMember.name}<br><b>**Weapon Acquired:**</b>${weaponsArr[arrayNum4][0]}<br><br>The sea be wide, and the horizon endless. Ye have proven yerself a true captain of the high seas. Onward to new horizons, Captain!`
 
             //adds the new member to the screen with the "members-list" element
             let memberList = document.getElementById("member-list");
@@ -853,7 +906,6 @@ function triviaEndScreen(wrongCount, changeLevel, keepCaptain, arrayNum4){
             let newWeapon = document.createElement("li");
             newWeapon.innerHTML = `&nbsp;${weaponsArr[arrayNum4][0]}`
             weaponList.appendChild(newWeapon);
-
         }
         else if(wrongCount === 1 || wrongCount === 2){
 
@@ -1473,8 +1525,7 @@ const crewArr = [
     ["Silverbeard", "Quartermaster"],
     ["Sharktooth Morgan", "Boatswain"],
     ["Pegleg Charlie", "Navigator"],
-    ["Wind Walker Grace", "Gunner"],
-    ["Doctor Iron Bones", "Doctor"]
+    ["Wind Walker Grace", "Gunner"]
 ];
 
 //an array of the weapons that the player will be rewarded and use throughout the game
