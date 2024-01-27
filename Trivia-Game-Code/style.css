@@ -228,9 +228,10 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     margin: auto;
     height: auto;
     padding: auto;
     flex-wrap: wrap;
-    gap: 2vw;
+    gap: 0.5vw;
 }
